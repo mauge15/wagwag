@@ -43,6 +43,13 @@ $config = [
             ],
         ],
         'db' => $db,
+        'view' => [
+		         'theme' => [
+		             'pathMap' => [
+		                '@app/views' => '@vendor/yidas/yii2-adminlte/example-views'
+		             ],
+		         ],
+		    ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
