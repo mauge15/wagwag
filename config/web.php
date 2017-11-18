@@ -46,7 +46,8 @@ $config = [
         'view' => [
 		         'theme' => [
 		             'pathMap' => [
-		                '@app/views' => '@vendor/yidas/yii2-adminlte/example-views'
+		                //'@app/views' => '@vendor/yidas/yii2-adminlte/example-views'
+		                '@app/views' => '@app/themes/temawagwag'
 		             ],
 		         ],
 		    ],
