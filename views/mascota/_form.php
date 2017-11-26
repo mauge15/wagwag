@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\jui\AutoComplete;
+use app\models\Propietario;
 use app\models\Veterinario;
 use app\models\SociedadProtectora;
 use app\models\Raza;
@@ -38,6 +39,12 @@ $dataRaza = Raza::find()
   ->asArray()
    ->all();
 
+   $dataPropietario = Propietario::find()
+  ->select(["CONCAT(nombre,' ',apellido) as value","CONCAT(nombre,' ',apellido) as label","id as id"])
+  ->asArray()
+   ->all();
+
+
 
    $dataProtectora = SociedadProtectora::find()
   ->select(["nombre as value","nombre as label","id as id"])
@@ -57,11 +64,12 @@ $dataRaza = Raza::find()
 
     <?= $form->field($model, 'chip')->textInput() ?>
 
-    <?php echo "<b>Raza</b><br><br>";?>
+    <?php echo "<b>Raza</b><br>";?>
   
   <?php
     echo AutoComplete::widget([
         'name' => 'raza',
+        'options' => ['placeholder' => 'Seleccione la raza ...', 'class' => 'form-control'],
         'clientOptions' => [
             'source' => $dataRaza,
             'autofill' => TRUE,
@@ -89,6 +97,7 @@ $dataRaza = Raza::find()
 
      echo AutoComplete::widget([
         'name' => 'protectora',
+        'options' => ['placeholder' => 'Seleccione  ...', 'class' => 'form-control'],
         'clientOptions' => [
             'source' => $dataProtectora,
             'autofill' => TRUE,
@@ -102,11 +111,12 @@ $dataRaza = Raza::find()
     ?></div>
     <?= Html::activeHiddenInput($model, 'id_protectora') ?>
 
-    <?php echo "<b>Veterinario</b><br><br>";?>
+    <?php echo "<b>Veterinario</b><br>";?>
 	
 	<?php
 	  echo AutoComplete::widget([
 	      'name' => 'veterinario',
+        'options' => ['placeholder' => 'Seleccione el veterinario ...', 'class' => 'form-control'],
 	      'clientOptions' => [
 	          'source' => $data,
             'autofill' => TRUE,
@@ -119,14 +129,25 @@ $dataRaza = Raza::find()
 	?>
 	
 	<?= Html::activeHiddenInput($model, 'id_veterinario') ?>
-    
-    <div class="form-group">
-        <?= Html::submitButton('Añadir Historial Médico', ['class' => 'btn btn-primary']) ?>
-    </div>
 
-  <div class="form-group">
-        <?= Html::submitButton('Añadir Historial de Comportamiento', ['class' => 'btn btn-primary']) ?>
-    </div>
+    <?php echo "<b>Propietario</b><br>";?>
+  
+  <?php
+    echo AutoComplete::widget([
+        'name' => 'propietario',
+        'options' => ['placeholder' => 'Seleccione el propietario ...', 'class' => 'form-control'],
+        'clientOptions' => [
+            'source' => $dataPropietario,
+            'autofill' => TRUE,
+            'select' => new JsExpression("function( event, ui ) {
+        $('#mascota-id_propietario').val(ui.item.id);
+     }"),
+        ],
+    ]);
+    echo "<br><br>";
+  ?>
+  
+  <?= Html::activeHiddenInput($model, 'id_propietario') ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Añadir' : 'Editar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

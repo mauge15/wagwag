@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Añadir Mascota', ['newAnimal', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Añadir Mascota', ['mascota/createwithid', 'id_propietario' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [

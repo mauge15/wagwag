@@ -89,6 +89,27 @@ class MascotaController extends Controller
     }
 
     /**
+     * Creates a new Mascota model with id_propietario
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreatewithid($id_propietario)
+    {
+        $model = new Mascota();
+        $model->id_propietario = $id_propietario;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+
+
+    /**
      * Updates an existing Mascota model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id

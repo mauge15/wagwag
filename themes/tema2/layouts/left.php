@@ -36,7 +36,7 @@
                     'icon' => 'user-circle-o',
                     'url' => '#',
                     'items' => [
-                        ['label' => 'Nuevo', 'icon' => 'plus-square', 'url' => ['/propietario'],],
+                        ['label' => 'Nuevo', 'icon' => 'plus-square', 'url' => ['/propietario/create'],],
                         ['label' => 'Gestionar', 'icon' => 'dashboard', 'url' => ['/propietario'],],
                      ],
                  ],
@@ -46,7 +46,7 @@
 	                    'icon' => 'paw',
 	                    'url' => '#',
 	                    'items' => [
-	                        ['label' => 'Nuevo', 'icon' => 'plus-square', 'url' => ['/mascota'],],
+	                        ['label' => 'Nuevo', 'icon' => 'plus-square', 'url' => ['/mascota/create'],],
 	                        ['label' => 'Gestionar', 'icon' => 'dashboard', 'url' => ['/mascota'],],
 	                     ],
 	                 ],

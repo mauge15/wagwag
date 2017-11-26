@@ -20,6 +20,7 @@ use Yii;
  * @property integer $id_historial_medico
  * @property integer $id_historial_comportamiento
  * @property integer $nom_vet
+ * @property integer $id_propietario
  */
 class Mascota extends \yii\db\ActiveRecord
 {
@@ -39,7 +40,7 @@ class Mascota extends \yii\db\ActiveRecord
         return [
             [['nombre', 'fecha_nac', 'chip', 'id_raza', 'sexo', 'esterilizado', 'fecha_ult_celo', 'adoptado'], 'required'],
             [['fecha_nac', 'fecha_ult_celo'], 'safe'],
-            [['chip', 'id_raza', 'esterilizado', 'adoptado', 'id_protectora', 'id_historial_medico', 'id_historial_comportamiento','id_veterinario'], 'integer'],
+            [['chip', 'id_raza', 'esterilizado', 'adoptado', 'id_protectora', 'id_historial_medico', 'id_historial_comportamiento','id_veterinario','id_propietario'], 'integer'],
             [['nombre'], 'string', 'max' => 20],
             [['sexo'], 'string', 'max' => 1],
         ];
@@ -64,6 +65,7 @@ class Mascota extends \yii\db\ActiveRecord
             'id_veterinario' => 'Veterinario',
             'id_historial_medico' => 'Id Historial Medico',
             'id_historial_comportamiento' => 'Id Historial Comportamiento',
+            'id_propietario' => 'Id Propietario',
             'nom_vet' => 'Nombre del Veterinario',
         ];
     }

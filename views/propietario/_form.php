@@ -15,15 +15,7 @@ use yii\widgets\View;
 //$type_list= Referencia::model()->findAll();
 $type_list= ArrayHelper::map($listReferencia,'id','tipo');
 ?>
-  <?php 
-    echo AutoComplete::widget([
-    'name' => 'country',
-    'clientOptions' => [
-        'source' => ["hola", "abas","cskh","jafls","djsfa"],
-        'autofill' => TRUE,
-    ],
-]);
-    ?>
+ 
 <div class="propietario-form">
 
     <?php $form = ActiveForm::begin(); ?>
