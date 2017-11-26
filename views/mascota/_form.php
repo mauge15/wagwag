@@ -130,6 +130,8 @@ $dataRaza = Raza::find()
 	
 	<?= Html::activeHiddenInput($model, 'id_veterinario') ?>
 
+ <div id="hiddenDiv" style="display: <?=isset($model->id_propietario) ? 'none':'block'?>">
+
     <?php echo "<b>Propietario</b><br>";?>
   
   <?php
@@ -148,6 +150,7 @@ $dataRaza = Raza::find()
   ?>
   
   <?= Html::activeHiddenInput($model, 'id_propietario') ?>
+</div>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Añadir' : 'Editar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

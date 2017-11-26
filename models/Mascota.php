@@ -73,7 +73,7 @@ class Mascota extends \yii\db\ActiveRecord
 
     public function beforeSave($insert) {
         // unix timestamp
-        $time = strtotime($this->fecha_nac);
+        //$time = strtotime($this->fecha_nac);
 
         // if you want a specific format
         $time = date("Y-m-d", strtotime($this->fecha_nac));

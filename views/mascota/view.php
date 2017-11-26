@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\Raza;
+use app\models\Sociedadprotectora;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Mascota */
@@ -50,10 +51,13 @@ if (is_null($model->id_historial_comportamiento))
             'value'=>Raza::findOne($model->id_raza)->nombre],
             ['label'=>'Sexo',
             'value'=> ($model->sexo=="m") ? 'Macho' : 'Hembra'],
-            'esterilizado',
+            ['label'=>'Esterilizado',
+            'value'=>($model->esterilizado==1) ? 'Si' : 'No'],
             'fecha_ult_celo',
-            'adoptado',
-            'id_protectora',
+            ['label'=>'Adoptado',
+            'value'=>($model->adoptado==1) ? 'Si':'No'],
+            ['label'=>'Protectora',
+            'value'=> ($model->adoptado==1)? Sociedadprotectora::findOne($model->id_protectora)->nombre : '-'],
             'id_historial_medico',
             'id_historial_comportamiento',
         ],
