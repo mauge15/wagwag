@@ -44,6 +44,22 @@ class RazaController extends Controller
         ]);
     }
 
+
+
+/**
+     * 
+     * @return mixed
+     */
+    public function actionPrueba()
+    {
+        $searchModel = new RazaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
     /**
      * Displays a single Raza model.
      * @param integer $id

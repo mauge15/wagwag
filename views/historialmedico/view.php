@@ -2,13 +2,14 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\Mascota;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\HistorialMedico */
-
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Historial Medicos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$mascota = Mascota::findOne($id_mascota);
+$this->title = $mascota->nombre;
+$this->params['breadcrumbs'][] = ['label' => $mascota->nombre, 'url' => ['mascota/index']];
+$this->params['breadcrumbs'][] = 'Historial Médico';
 ?>
 <div class="historial-medico-view">
 

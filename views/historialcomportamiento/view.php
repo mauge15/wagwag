@@ -2,13 +2,16 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\Mascota;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\HistorialComportamiento */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Historial Comportamientos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
+$mascota = Mascota::findOne($id_mascota);
+$this->title = $mascota->nombre;
+$this->params['breadcrumbs'][] = ['label' => $mascota->nombre, 'url' => ['mascota/index']];
+$this->params['breadcrumbs'][] = 'Historial Comportamiento';
 ?>
 <div class="historial-comportamiento-view">
 

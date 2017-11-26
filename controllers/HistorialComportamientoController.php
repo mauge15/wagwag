@@ -8,11 +8,13 @@ use app\models\HistorialComportamientoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Temperamento;
+use app\models\Mascota;
 
 /**
  * HistorialComportamientoController implements the CRUD actions for HistorialComportamiento model.
  */
-class HistorialComportamientoController extends Controller
+class HistorialcomportamientoController extends Controller
 {
     /**
      * @inheritdoc
@@ -56,6 +58,21 @@ class HistorialComportamientoController extends Controller
         ]);
     }
 
+     /**
+     * Displays a single HistorialComportamiento model.
+     * @param integer $id
+     * @param integer $id_historial_comportamiento
+     * @param integer $id_mascota
+     * @return mixed
+     */
+    public function actionView2($id, $id_historial_comportamiento, $id_mascota )
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id_historial_comportamiento),
+            'id_mascota' => $id_mascota,
+        ]);
+    }
+
     /**
      * Creates a new HistorialComportamiento model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -71,6 +88,31 @@ class HistorialComportamientoController extends Controller
             return $this->render('create', [
                 'model' => $model,
             ]);
+        }
+    }
+
+
+      /**
+     * Creates a new HistorialMedico model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreatewithid($id_mascota)
+    {
+        $model = new HistorialComportamiento();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+             $mascota = Mascota::findOne($id_mascota);
+            $mascota->id_historial_comportamiento = $model->id;
+            $mascota->save();
+            return $this->redirect(['mascota/view', 'id' => $id_mascota]);
+        } else {
+
+            return $this->render('create', [
+                'model' => $model,
+                'idMascota' => $id_mascota,
+                'listTemperamento' => Temperamento::find()->all(),
+            ]);
+
         }
     }
 

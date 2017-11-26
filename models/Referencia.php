@@ -31,6 +31,13 @@ class Referencia extends \yii\db\ActiveRecord
         ];
     }
 
+//public function relations()
+//{
+//	return array(
+//		'propietarios' => array(self::HAS_MANY, 'Propietario', 'id_propietario')
+//	)
+//}
+
     /**
      * @inheritdoc
      */

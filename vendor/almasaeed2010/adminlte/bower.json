@@ -9,6 +9,7 @@
     "index2.html",
     "dist/css/AdminLTE.css",
     "dist/js/app.js",
+    "dist/js/jquery-migrate-3.0.0,js"
     "build/less/AdminLTE.less"
   ],
   "keywords": [

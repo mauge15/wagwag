@@ -2,12 +2,28 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use yii\jui\AutoComplete;
+use yii\widgets\View;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Propietario */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
+<?php
+//$type_list= Referencia::model()->findAll();
+$type_list= ArrayHelper::map($listReferencia,'id','tipo');
+?>
+  <?php 
+    echo AutoComplete::widget([
+    'name' => 'country',
+    'clientOptions' => [
+        'source' => ["hola", "abas","cskh","jafls","djsfa"],
+        'autofill' => TRUE,
+    ],
+]);
+    ?>
 <div class="propietario-form">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -28,14 +44,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'persona_contacto')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'id_Veterinario')->textInput() ?>
-
-    <?= $form->field($model, 'id_referencia')->textInput() ?>
+	<?= $form->field($model, 'id_referencia')->radioList($type_list) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Editar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
+
+
     <?php ActiveForm::end(); ?>
+
 
 </div>

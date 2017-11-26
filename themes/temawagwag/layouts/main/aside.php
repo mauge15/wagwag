@@ -35,7 +35,9 @@
         </a>
         <ul class="treeview-menu">
           <li><a href="index.html"><i class="fa fa-circle-o"></i>Nuevo Cliente</a></li>
+          <li><a href="index.html"><i class="fa fa-circle-o"></i>Nueva Mascota</a></li>
           <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i>Gestión Mascotas</a></li>
+          <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i>Gestión Clientes</a></li>
         </ul>
       </li>
       <li class="treeview">

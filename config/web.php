@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'name' => 'WagWag App',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -47,7 +48,7 @@ $config = [
 		         'theme' => [
 		             'pathMap' => [
 		                //'@app/views' => '@vendor/yidas/yii2-adminlte/example-views'
-		                '@app/views' => '@app/themes/temawagwag'
+		                '@app/views' => '@app/themes/tema2'
 		             ],
 		         ],
 		    ],

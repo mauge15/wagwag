@@ -16,7 +16,6 @@ use Yii;
  * @property integer $cod_postal
  * @property string $email
  * @property string $persona_contacto
- * @property integer $id_Veterinario
  * @property integer $id_referencia
  */
 class Propietario extends \yii\db\ActiveRecord
@@ -35,8 +34,8 @@ class Propietario extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'apellido', 'telefono', 'dni', 'direccion', 'cod_postal', 'email', 'persona_contacto', 'id_Veterinario', 'id_referencia'], 'required'],
-            [['telefono', 'cod_postal', 'id_Veterinario', 'id_referencia'], 'integer'],
+            [['nombre', 'apellido', 'telefono', 'dni', 'direccion', 'cod_postal', 'email', 'persona_contacto','id_referencia'], 'required'],
+            [['telefono', 'cod_postal', 'id_referencia'], 'integer'],
             [['nombre'], 'string', 'max' => 20],
             [['apellido'], 'string', 'max' => 30],
             [['dni'], 'string', 'max' => 11],
@@ -46,6 +45,14 @@ class Propietario extends \yii\db\ActiveRecord
         ];
     }
 
+  //  public function relations()
+//{
+//	return array(
+//		'como_nos_conocio' => array(self::BELONGS_TO, 'Referencia', 'id_referencia'),
+//	);
+//}
+
+
     /**
      * @inheritdoc
      */
@@ -54,15 +61,14 @@ class Propietario extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'nombre' => 'Nombre',
-            'apellido' => 'Apellido',
+            'apellido' => 'Apellidos',
             'telefono' => 'Telefono',
-            'dni' => 'Dni',
+            'dni' => 'DNI',
             'direccion' => 'Direccion',
-            'cod_postal' => 'Cod Postal',
+            'cod_postal' => 'Código Postal',
             'email' => 'Email',
-            'persona_contacto' => 'Persona Contacto',
-            'id_Veterinario' => 'Id  Veterinario',
-            'id_referencia' => 'Id Referencia',
+            'persona_contacto' => 'Persona de Contacto',
+            'id_referencia' => 'Como nos conoció?',
         ];
     }
 }

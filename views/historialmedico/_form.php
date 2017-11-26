@@ -26,8 +26,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'otras')->textInput(['maxlength' => true]) ?>
 
+    <?= Html::hiddenInput('HistorialMedico[idmascota]',$idMascota,['id'=>'historialmedico-idmascota','name'=>'HistorialMedico[idmascota]']) ?>
+
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Editar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

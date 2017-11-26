@@ -1,14 +1,17 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\Mascota;
 
 
 /* @var $this yii\web\View */
 /* @var $model app\models\HistorialComportamiento */
 
-$this->title = 'Create Historial Comportamiento';
-$this->params['breadcrumbs'][] = ['label' => 'Historial Comportamientos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$mascota = Mascota::findOne($idMascota);
+
+$this->title = $mascota->nombre;
+$this->params['breadcrumbs'][] = ['label' => $mascota->nombre, 'url' => ['index']];
+$this->params['breadcrumbs'][] = "Historial de Comportamiento";
 ?>
 <div class="historial-comportamiento-create">
 
@@ -16,6 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'listTemperamento' => $listTemperamento,
+        'idMascota' => $mascota->id,
     ]) ?>
 
 </div>

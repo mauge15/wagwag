@@ -24,16 +24,23 @@ class MascotaController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'prueba' => ['GET'],
                 ],
             ],
         ];
     }
 
+    public function actionChopi()
+    {
+
+    }
+
+
     /**
      * Lists all Mascota models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndice()
     {
         $searchModel = new MascotaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -43,6 +50,23 @@ class MascotaController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+
+    /**
+     * 
+     * @return mixed
+     */
+    public function actionPrueba()
+    {
+         $searchModel = new MascotaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
 
     /**
      * Displays a single Mascota model.
@@ -93,6 +117,9 @@ class MascotaController extends Controller
         }
     }
 
+
+
+
     /**
      * Deletes an existing Mascota model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -121,4 +148,23 @@ class MascotaController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+     public function suggestVeterinarian($keyword,$limit=50)
+	   {
+	        $models=$this->findAll(array(
+	           'condition'=>'product_name LIKE :keyword',
+	           'order'=>'product name',
+	           'limit'=>$limit,
+	           'params'=>array(':keyword'=>"%$keyword%")
+	        ));
+	       $suggest=array();
+	           foreach($models as $model) {
+	             $suggest[] = array(
+
+	                'product_sale_rate'=>$model->product_sale_rate, // return values from autocomplete
+	        );
+	    }
+	return $suggest;
+	}
+
 }

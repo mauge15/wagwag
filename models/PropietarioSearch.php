@@ -18,7 +18,7 @@ class PropietarioSearch extends Propietario
     public function rules()
     {
         return [
-            [['id', 'telefono', 'cod_postal', 'id_Veterinario', 'id_referencia'], 'integer'],
+            [['id', 'telefono', 'cod_postal', 'id_referencia'], 'integer'],
             [['nombre', 'apellido', 'dni', 'direccion', 'email', 'persona_contacto'], 'safe'],
         ];
     }
@@ -62,7 +62,6 @@ class PropietarioSearch extends Propietario
             'id' => $this->id,
             'telefono' => $this->telefono,
             'cod_postal' => $this->cod_postal,
-            'id_Veterinario' => $this->id_Veterinario,
             'id_referencia' => $this->id_referencia,
         ]);
 

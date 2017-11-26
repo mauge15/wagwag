@@ -44,13 +44,15 @@ class HistorialMedico extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'enf_cardiaca' => 'Enf Cardiaca',
-            'ale_alimentaria' => 'Ale Alimentaria',
-            'ale_cutanea' => 'Ale Cutanea',
-            'otras_limit' => 'Otras Limit',
-            'cancer' => 'Cancer',
-            'enf_endocrina' => 'Enf Endocrina',
+            'enf_cardiaca' => 'Enfermedad Cardiaca',
+            'ale_alimentaria' => 'Alergias Alimentarias',
+            'ale_cutanea' => 'Alergia Cutanea',
+            'otras_limit' => 'Otras Limitaciones',
+            'cancer' => 'Cáncer',
+            'enf_endocrina' => 'Enfermedad Endocrina',
             'otras' => 'Otras',
         ];
     }
+
+    
 }
