@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use app\Models\Referencia;
+use app\models\Referencia;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Propietario */
