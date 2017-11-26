@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Raza;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MascotaSearch */
@@ -27,8 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'nombre',
             'fecha_nac',
-            'chip',
-            'id_raza',
+            [
+                'class'=>'yii\grid\DataColumn',
+                'label'=>'Raza',
+                'value'=>function($data){
+                    return Raza::findOne($data->id_raza)->nombre;
+                },
+            ],
             // 'sexo',
             // 'esterilizado',
             // 'fecha_ult_celo',
