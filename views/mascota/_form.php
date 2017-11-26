@@ -69,7 +69,7 @@ $dataRaza = Raza::find()
   <?php
     echo AutoComplete::widget([
         'name' => 'raza',
-        'options' => ['placeholder' => 'Seleccione la raza ...', 'class' => 'form-control'],
+        'options' => ['placeholder' => 'Seleccione la raza ...'],
         'clientOptions' => [
             'source' => $dataRaza,
             'autofill' => TRUE,
