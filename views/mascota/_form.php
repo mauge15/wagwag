@@ -97,7 +97,7 @@ $dataRaza = Raza::find()
 
      echo AutoComplete::widget([
         'name' => 'protectora',
-        'options' => ['placeholder' => 'Seleccione  ...', 'class' => 'form-control'],
+        'options' => ['placeholder' => 'Seleccione la protectora ...', 'class' => 'form-control'],
         'clientOptions' => [
             'source' => $dataProtectora,
             'autofill' => TRUE,
