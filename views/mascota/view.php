@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\Raza;
-use app\models\Sociedadprotectora;
+use app\models\SociedadProtectora;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Mascota */
@@ -57,7 +57,7 @@ if (is_null($model->id_historial_comportamiento))
             ['label'=>'Adoptado',
             'value'=>($model->adoptado==1) ? 'Si':'No'],
             ['label'=>'Protectora',
-            'value'=> ($model->adoptado==1)? Sociedadprotectora::findOne($model->id_protectora)->nombre : '-'],
+            'value'=> ($model->adoptado==1)? SociedadProtectora::findOne($model->id_protectora)->nombre : '-'],
             'id_historial_medico',
             'id_historial_comportamiento',
         ],
