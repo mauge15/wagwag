@@ -114,7 +114,7 @@ if (is_null($model->id_historial_comportamiento))
 
  <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
               [
@@ -126,10 +126,12 @@ if (is_null($model->id_historial_comportamiento))
                     return $bono->tipo;
                 },
             ],
-            'fecha_compra',
             'fecha_caducidad',
-            'dias_utilizados',
-            'dias_bono',
+            [
+                'class'=>'yii\grid\DataColumn',
+                'label'=>'Dias',
+                'value'=>function($data){return $data->dias_bono;},
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
