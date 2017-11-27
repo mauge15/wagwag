@@ -11,6 +11,10 @@ use Yii;
  * @property string $tipo
  * @property integer $caducidad
  * @property double $precio
+ * @property integer $dias
+ * @property integer $horas
+ * @property string $jornada
+ * @property string $tipo_bono 
  */
 class Bono extends \yii\db\ActiveRecord
 {
@@ -29,9 +33,9 @@ class Bono extends \yii\db\ActiveRecord
     {
         return [
             [['tipo', 'precio'], 'required'],
-            [['caducidad'], 'integer'],
+            [['caducidad','dias','horas'], 'integer'],
             [['precio'], 'number'],
-            [['tipo'], 'string', 'max' => 100],
+            [['tipo','tipo_bono','jornada'], 'string', 'max' => 100],
         ];
     }
 
@@ -45,6 +49,10 @@ class Bono extends \yii\db\ActiveRecord
             'tipo' => 'Tipo',
             'caducidad' => 'Caducidad',
             'precio' => 'Precio',
+            'tipo_bono' => 'Tipo del Bono',
+            'dias' => 'Dias',
+            'horas' => 'Horas',
+            'jornada' => 'Jornada',
         ];
     }
 }

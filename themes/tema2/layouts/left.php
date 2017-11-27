@@ -51,6 +51,16 @@
 	                     ],
 	                 ],
 
+                     [
+                        'label' => 'Guardería',
+                        'icon' => 'home',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Nuevo Servicio', 'icon' => 'plus-square', 'url' => ['/bonocomprado/create'],],
+                            ['label' => 'Gestionar', 'icon' => 'dashboard', 'url' => ['/mascota'],],
+                         ],
+                     ],
+
 			
                     ['label' => 'Asistencia', 'icon' => 'calendar', 'url' => ['/debug']],
 

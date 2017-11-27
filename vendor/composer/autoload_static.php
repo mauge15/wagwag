@@ -26,6 +26,7 @@ class ComposerStaticInitea7b8382552233e883a621132268cbfd
             'yii\\composer\\' => 13,
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
+            'yii2fullcalendar\\' => 17,
             'yidas\\yii\\fontawesome\\' => 22,
             'yidas\\yii\\adminlte\\' => 19,
         ),
@@ -119,6 +120,10 @@ class ComposerStaticInitea7b8382552233e883a621132268cbfd
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'yii2fullcalendar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/philippfrenzel/yii2fullcalendar',
         ),
         'yidas\\yii\\fontawesome\\' => 
         array (

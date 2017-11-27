@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\BonoComprado */
 
-$this->title = 'Create Bono Comprado';
-$this->params['breadcrumbs'][] = ['label' => 'Bono Comprados', 'url' => ['index']];
+$this->title = 'Nuevo Servicio';
+$this->params['breadcrumbs'][] = ['label' => 'Nuevo Servicio', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bono-comprado-create">

@@ -6,13 +6,14 @@ use Yii;
 use app\models\BonoComprado;
 use app\models\BonoCompradoSearch;
 use yii\web\Controller;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * BonoCompradoController implements the CRUD actions for BonoComprado model.
  */
-class BonoCompradoController extends Controller
+class BonocompradoController extends Controller
 {
     /**
      * @inheritdoc
@@ -44,6 +45,36 @@ class BonoCompradoController extends Controller
         ]);
     }
 
+     /**
+     * Lists all BonoComprado models.
+     * @return mixed
+     */
+    public function actionBonomascota($id_mascota)
+    {
+
+        $searchModel = new BonoComprado();
+       $query = BonoComprado::find();
+
+        // add conditions that should always apply here
+
+       // grid filtering conditions
+        $query->andFilterWhere([
+            'id_mascota' => $id_mascota,
+        ]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+
+        
+
+        return $this->render('bonomascota', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single BonoComprado model.
      * @param integer $id
@@ -64,6 +95,8 @@ class BonoCompradoController extends Controller
     public function actionCreate()
     {
         $model = new BonoComprado();
+        $model->fecha_compra = date('d-m-Y'); //this format ensures that it is compatible with database storage.
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

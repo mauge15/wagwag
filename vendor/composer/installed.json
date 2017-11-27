@@ -3709,5 +3709,102 @@
             "jQuery UI",
             "yii2"
         ]
+    },
+    {
+        "name": "bower-asset/moment",
+        "version": "2.19.2",
+        "version_normalized": "2.19.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/moment/moment.git",
+            "reference": "328d51e7235b7a2d443bfdf69c1844939c115660"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/moment/moment/zipball/328d51e7235b7a2d443bfdf69c1844939c115660",
+            "reference": "328d51e7235b7a2d443bfdf69c1844939c115660",
+            "shasum": null
+        },
+        "type": "bower-asset",
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ]
+    },
+    {
+        "name": "bower-asset/fullcalendar",
+        "version": "v3.7.0",
+        "version_normalized": "3.7.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fullcalendar/fullcalendar.git",
+            "reference": "835dc7cce6b88436910a9480f72669ef7667091b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fullcalendar/fullcalendar/zipball/835dc7cce6b88436910a9480f72669ef7667091b",
+            "reference": "835dc7cce6b88436910a9480f72669ef7667091b",
+            "shasum": null
+        },
+        "require": {
+            "bower-asset/jquery": ">=2,<4.0",
+            "bower-asset/moment": ">=2.9.0,<3.0.0"
+        },
+        "type": "bower-asset",
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ]
+    },
+    {
+        "name": "philippfrenzel/yii2fullcalendar",
+        "version": "3.7.1",
+        "version_normalized": "3.7.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/philippfrenzel/yii2fullcalendar.git",
+            "reference": "40525912720dfa06c97ecaafc065768fc8d76378"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/philippfrenzel/yii2fullcalendar/zipball/40525912720dfa06c97ecaafc065768fc8d76378",
+            "reference": "40525912720dfa06c97ecaafc065768fc8d76378",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/fullcalendar": "3.7.0@stable",
+            "yiisoft/yii2": "*",
+            "yiisoft/yii2-jui": "*"
+        },
+        "require-dev": {
+            "codeception/codeception": "*"
+        },
+        "time": "2017-11-15T19:23:34+00:00",
+        "type": "yii2-extension",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "yii2fullcalendar\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Philipp Frenzel",
+                "email": "philipp@frenzel.net",
+                "homepage": "http://www.frenzel.net/",
+                "role": "Developer"
+            }
+        ],
+        "description": "Yii2 fullcalendar Widgets",
+        "homepage": "http://www.frenzel.net/",
+        "keywords": [
+            "fullcalendar",
+            "widget",
+            "yii2"
+        ]
     }
 ]

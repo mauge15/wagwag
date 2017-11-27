@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Raza;
+use app\models\Propietario;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MascotaSearch */
@@ -25,9 +26,25 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'nombre',
-            'fecha_nac',
+            //'fecha_nac',
+            [
+                'class'=>'yii\grid\DataColumn',
+                'label'=>'Propietario',
+                'enableSorting' => TRUE,
+                'value'=>function($data){
+                    $nomCompleto = "No Asignado";
+                    if (isset($data->id_propietario))
+                    {
+                        $prop = Propietario::findOne($data->id_propietario);
+                        $nomCompleto = $prop->nombre." ".$prop->apellido;
+
+                    }
+                    return $nomCompleto;
+                },
+            ],
+
             [
                 'class'=>'yii\grid\DataColumn',
                 'label'=>'Raza',
