@@ -69,7 +69,8 @@ use app\models\Mascota;
                             // 'id_historial_medico',
                             // 'id_historial_comportamiento',
 
-                            ['class' => 'yii\grid\ActionColumn'],
+                            ['class' => 'yii\grid\ActionColumn',
+                            'controller' => 'mascota'],
                         ],
                         ]); ?>   
                     </div>
