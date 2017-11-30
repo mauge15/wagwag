@@ -25,11 +25,11 @@ echo 'Dialog contents here...';
 
 Dialog::end();*/
 
-$this->registerJs(
+/*$this->registerJs(
     "$('#myModal').modal();",
     View::POS_READY,
     'my-button-handler'
-);
+);*/
 
 ?>
 <!-- Modal -->
