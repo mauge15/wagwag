@@ -31,6 +31,11 @@ Dialog::end();*/
     'my-button-handler'
 );*/
 
+$this->registerJs(
+"$('#calendar').fullCalendar({
+     weekends: false // will hide Saturdays and Sundays
+})",
+View::POS_READY)
 ?>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -55,6 +60,9 @@ Dialog::end();*/
     
 
     <div class="body-content">
+
+
+        <div id='calendar'></div>
 
         <div class="row">
             

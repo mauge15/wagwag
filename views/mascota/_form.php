@@ -52,7 +52,37 @@ $dataRaza = Raza::find()
    ->all();
 ?>
 
-<div class="mascota-form">
+<div class="row">
+  <div class="col-sm-12">
+        <div class="box box-solid box-info" data-widget="box-widget">
+            <div class="box-header">
+                <h3 class="box-title">Datos Propietario</h3>
+                <div class="box-tools">
+                              <!-- This will cause the box to be removed when clicked -->
+                              <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                              <!-- This will cause the box to collapse when clicked -->
+                              <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                        <!--form propietario -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="box box-solid box-info" data-widget="box-widget">
+      <div class="box header">
+        <h3 class="box-title">Datos Mascota</h3>
+        <div class="box-tools">
+        </div>
+      </div>
+      <div class="box-body">
+        <!--form mascota-->
+        <div class="mascota-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -111,24 +141,7 @@ $dataRaza = Raza::find()
     ?></div>
     <?= Html::activeHiddenInput($model, 'id_protectora') ?>
 
-    <?php echo "<b>Veterinario</b><br>";?>
-	
-	<?php
-	  echo AutoComplete::widget([
-	      'name' => 'veterinario',
-        'options' => ['placeholder' => 'Seleccione el veterinario ...'],
-	      'clientOptions' => [
-	          'source' => $data,
-            'autofill' => TRUE,
-            'select' => new JsExpression("function( event, ui ) {
-        $('#mascota-id_veterinario').val(ui.item.id);
-     }"),
-	      ],
-	  ]);
-    echo "<br><br>";
-	?>
-	
-	<?= Html::activeHiddenInput($model, 'id_veterinario') ?>
+    
 
  <div id="hiddenDiv" style="display: <?=isset($model->id_propietario) ? 'none':'block'?>">
 
@@ -159,3 +172,9 @@ $dataRaza = Raza::find()
     <?php ActiveForm::end(); ?>
 
 </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -4,11 +4,15 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Propietario;
+use app\models\Mascota;
+use app\models\HistorialMedico;
+use app\models\HistorialComportamiento;
 use app\models\PropietarioSearch;
 use app\models\Referencia;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\base\Model;
 
 /**
  * PropietarioController implements the CRUD actions for Propietario model.
@@ -64,17 +68,35 @@ class PropietarioController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Propietario();
+        $modelPropietario = new Propietario();
+        $modelMascota = new Mascota();
+        $modelHistMedico = new HistorialMedico();
+        $modelHistComp = new HistorialComportamiento();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($modelPropietario->load(Yii::$app->request->post()) && $modelMascota->load(Yii::$app->request->post()) && $modelHistMedico->load(Yii::$app->request->post()) && $modelHistComp->load(Yii::$app->request->post()) && Model::validateMultiple([$modelPropietario, $modelMascota, $modelHistMedico,$modelHistComp])) {
+
+            $modelPropietario->save(false); // skip validation as model is already validated
+            $modelMascota->id_propietario = $modelPropietario->id; 
+            $modelMascota->save(false); 
+            $modelHistMedico->id_mascota = $modelMascota->id;
+            $modelHistMedico->save(false);
+            $modelHistComp->id_mascota = $modelMascota->id;
+            $modelHistComp->save(false);
+            $modelMascota->id_historial_medico = $modelHistMedico->id;
+            $modelMascota->id_historial_comportamiento = $modelHistComp->id;
+            $modelMascota->save(false);
+            return $this->redirect(['view', 'id' => $modelPropietario->id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'modelPropietario' => $modelPropietario,
+                'modelMascota' => $modelMascota,
+                'modelHistMedico' => $modelHistMedico,
+                'modelHistComp' => $modelHistComp,
                  'listReferencia' => Referencia::find()->all(),
             ]);
         }
     }
+
 
     /**
      * Updates an existing Propietario model.
@@ -85,6 +107,7 @@ class PropietarioController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

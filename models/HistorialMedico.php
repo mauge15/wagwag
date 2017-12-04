@@ -15,6 +15,7 @@ use Yii;
  * @property string $cancer
  * @property string $enf_endocrina
  * @property string $otras
+ * @property string $id_mascota
  */
 class HistorialMedico extends \yii\db\ActiveRecord
 {
@@ -47,10 +48,10 @@ class HistorialMedico extends \yii\db\ActiveRecord
             'enf_cardiaca' => 'Enfermedad Cardiaca',
             'ale_alimentaria' => 'Alergias Alimentarias',
             'ale_cutanea' => 'Alergia Cutanea',
-            'otras_limit' => 'Otras Limitaciones',
+            'otras_limit' => 'Limitaciones o dolores físicos',
             'cancer' => 'Cáncer',
             'enf_endocrina' => 'Enfermedad Endocrina',
-            'otras' => 'Otras',
+            'otras' => 'Otros datos importantes',
         ];
     }
 
