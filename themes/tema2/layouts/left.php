@@ -33,7 +33,7 @@
                  ['label' => 'MENU PRINCIPAL', 'options' => ['class' => 'header']],
                  [
                     'label' => 'Clientes',
-                    'icon' => 'user-circle-o',
+                    'icon' => 'paw',
                     'url' => '#',
                     'items' => [
                         ['label' => 'Nuevo', 'icon' => 'plus-square', 'url' => ['/propietario/create'],],
@@ -41,7 +41,7 @@
                      ],
                  ],
 
-				  [
+				  /*[
 	                    'label' => 'Mascotas',
 	                    'icon' => 'paw',
 	                    'url' => '#',
@@ -49,7 +49,7 @@
 	                        ['label' => 'Nuevo', 'icon' => 'plus-square', 'url' => ['/mascota/create'],],
 	                        ['label' => 'Gestionar', 'icon' => 'dashboard', 'url' => ['/mascota'],],
 	                     ],
-	                 ],
+	                 ],*/
 
                      [
                         'label' => 'Guardería',
