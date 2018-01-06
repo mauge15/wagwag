@@ -33,7 +33,6 @@ class HistorialMedico extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['otras_limit'], 'required'],
             [['enf_cardiaca', 'ale_alimentaria', 'ale_cutanea', 'otras_limit', 'cancer', 'enf_endocrina', 'otras'], 'string', 'max' => 150],
         ];
     }

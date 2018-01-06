@@ -38,7 +38,7 @@ class Mascota extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'fecha_nac', 'chip', 'id_raza', 'sexo', 'esterilizado', 'fecha_ult_celo', 'adoptado'], 'required'],
+            [['nombre', 'id_raza', 'sexo', 'esterilizado'], 'required'],
             [['fecha_nac', 'fecha_ult_celo'], 'safe'],
             [['chip', 'id_raza', 'esterilizado', 'adoptado', 'id_protectora', 'id_historial_medico', 'id_historial_comportamiento','id_veterinario','id_propietario'], 'integer'],
             [['nombre'], 'string', 'max' => 20],

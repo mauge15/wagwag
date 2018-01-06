@@ -38,7 +38,6 @@ class HistorialComportamiento extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ha_mordido', 'ha_sido_mordido', 'miedo_perro', 'id_temperamento', 'juega_perros', 'juega_personas', 'persona_desconocida'], 'required'],
             [['id_mascota', 'id_temperamento'], 'integer'],
             [['juega_perros', 'juega_personas','ha_mordido','ha_sido_mordido','miedo_perro','encuentro_perro','miedos','protege_cosas','gusta_jugar'], 'string', 'max' => 150],
             [['persona_desconocida', 'otra_info'], 'string', 'max' => 200],

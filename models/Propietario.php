@@ -34,7 +34,7 @@ class Propietario extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'apellido', 'telefono', 'dni', 'direccion', 'cod_postal', 'email', 'persona_contacto','id_referencia'], 'required'],
+            [['nombre', 'apellido', 'dni'], 'required'],
             [['telefono', 'cod_postal', 'id_referencia'], 'integer'],
             [['nombre'], 'string', 'max' => 20],
             [['apellido'], 'string', 'max' => 30],

@@ -62,7 +62,7 @@ View::POS_READY)
     <div class="body-content">
 
 
-        <div id='calendar'></div>
+        <!--<div id='calendar'></div>-->
 
         <div class="row">
             
