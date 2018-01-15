@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\jui\AutoComplete;
+use yii\jui\DatePicker;
 use app\models\Propietario;
 use app\models\Veterinario;
 use app\models\SociedadProtectora;
@@ -52,50 +53,21 @@ $dataRaza = Raza::find()
    ->all();
 ?>
 
-<div class="row">
-  <div class="col-sm-12">
-        <div class="box box-solid box-info" data-widget="box-widget">
-            <div class="box-header">
-                <h3 class="box-title">Datos Propietario</h3>
-                <div class="box-tools">
-                              <!-- This will cause the box to be removed when clicked -->
-                              <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                              <!-- This will cause the box to collapse when clicked -->
-                              <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                </div>
-            </div>
-            <div class="box-body">
-                        <!--form propietario -->
 
-            </div>
-        </div>
-    </div>
-</div>
+<!--form mascota-->
+<div class="mascota-form">
+  <?php $form = ActiveForm::begin(); ?>
+  <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
-<div class="row">
-  <div class="col-sm-12">
-    <div class="box box-solid box-info" data-widget="box-widget">
-      <div class="box header">
-        <h3 class="box-title">Datos Mascota</h3>
-        <div class="box-tools">
-        </div>
-      </div>
-      <div class="box-body">
-        <!--form mascota-->
-        <div class="mascota-form">
-
-    <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
+  <?= $form->field($model, 'fecha_nac')->widget(\yii\jui\DatePicker::className(), [
+    'language' => 'es',
+    'dateFormat' => 'dd-MM-yyyy',
+  ]) ?>
 
   
-
-    <?= $form->field($model, 'fecha_nac')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '99/99/9999']) ?>
-
-    <?= $form->field($model, 'chip')->textInput() ?>
-
-    <?php echo "<b>Raza</b><br>";?>
-  
+  <?php /*$form->field($model, 'fecha_nac')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '99/99/9999'])*/ ?>
+  <?= $form->field($model, 'chip')->textInput() ?>
+  <?php echo "<b>Raza</b><br>";?>
   <?php
     echo AutoComplete::widget([
         'name' => 'raza',
@@ -110,21 +82,13 @@ $dataRaza = Raza::find()
     ]);
     echo "<br><br>";
   ?>
-  
   <?= Html::activeHiddenInput($model, 'id_raza') ?>
-
-
-    <?= $form->field($model, 'sexo')->radioList(array('m'=>'Macho','h' => 'Hembra')) ?>
-
-    <?= $form->field($model, 'esterilizado')->checkbox() ?>
-
-   <?= $form->field($model, 'fecha_ult_celo')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '99/99/9999']) ?>
-
-    <?= $form->field($model, 'adoptado' )->checkbox( array( 'onChange' => 'javascript:toggleInput(this)' )) ?>
-
-    <div id="hiddenDiv" style="display: none">
-    <?php 
-
+  <?= $form->field($model, 'sexo')->radioList(array('m'=>'Macho','h' => 'Hembra')) ?>
+  <?= $form->field($model, 'esterilizado')->checkbox() ?>
+  <?= $form->field($model, 'fecha_ult_celo')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '99/99/9999']) ?>
+  <?= $form->field($model, 'adoptado' )->checkbox( array( 'onChange' => 'javascript:toggleInput(this)' )) ?>
+  <div id="hiddenDiv" style="display: none">
+  <?php 
      echo AutoComplete::widget([
         'name' => 'protectora',
         'options' => ['placeholder' => 'Seleccione la protectora ...', 'class' => 'form-control'],
@@ -137,17 +101,12 @@ $dataRaza = Raza::find()
         ],
     ]);
     echo "<br><br>";
-
-    ?></div>
-    <?= Html::activeHiddenInput($model, 'id_protectora') ?>
-
-    
-
- <div id="hiddenDiv" style="display: <?=isset($model->id_propietario) ? 'none':'block'?>">
-
-    <?php echo "<b>Propietario</b><br>";?>
-  
-  <?php
+  ?> 
+  </div>
+  <?= Html::activeHiddenInput($model, 'id_protectora') ?>
+  <div id="hiddenDiv" style="display: <?=isset($model->id_propietario) ? 'none':'block'?>">
+  <?php 
+  /*echo "<b>Propietario</b><br>";
     echo AutoComplete::widget([
         'name' => 'propietario',
         'options' => ['placeholder' => 'Seleccione el propietario ...', 'class' => 'form-control'],
@@ -160,21 +119,15 @@ $dataRaza = Raza::find()
         ],
     ]);
     echo "<br><br>";
+    Html::activeHiddenInput($model, 'id_propietario')*/
   ?>
-  
-  <?= Html::activeHiddenInput($model, 'id_propietario') ?>
-</div>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Añadir' : 'Editar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+  </div>
+  <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? 'Añadir' : 'Guardar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+  </div>
 
     <?php ActiveForm::end(); ?>
 
-</div>
-      </div>
-    </div>
-  </div>
 </div>
 
 

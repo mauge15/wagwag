@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Propietario;
+use app\models\Temperamento;
 use app\models\Mascota;
 use app\models\HistorialMedico;
 use app\models\HistorialComportamiento;
@@ -56,8 +57,15 @@ class PropietarioController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        $propietario = $this->findModel($id);
+        $mascota = Mascota::find()->where(['id_propietario' => $id])->one();
+        $histMedico = HistorialMedico::find()->where(["id_mascota"=>$mascota->id])->one();
+        $histComp = HistorialComportamiento::find()->where(["id_mascota" => $mascota->id])->one();
+        return $this->render('viewComplete', [
+            'modelPropietario' => $propietario,
+            'modelMascota' => $mascota,
+            'modelHistMedico' => $histMedico,
+            'modelHistComp' => $histComp,
         ]);
     }
 
@@ -105,6 +113,28 @@ class PropietarioController extends Controller
      * @return mixed
      */
     public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+
+
+     /**
+     * Updates an existing Propietario model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdateMascota($id)
     {
         $model = $this->findModel($id);
 

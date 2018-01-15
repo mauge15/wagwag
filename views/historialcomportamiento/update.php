@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\HistorialComportamiento */
 
-$this->title = 'Update Historial Comportamiento: ' . $model->id;
+$this->title = 'Actualizar Historial Comportamiento: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Historial Comportamientos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'listTemperamento' => $listTemperamento,
     ]) ?>
 
 </div>

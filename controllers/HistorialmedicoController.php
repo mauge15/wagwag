@@ -130,7 +130,9 @@ class HistorialmedicoController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+              //reenviar a la mascota
+            $mascota = Mascota::findOne($model->id_mascota);
+            return $this->redirect(['propietario/view','id' => $mascota->id_propietario]);
         } else {
             return $this->render('update', [
                 'model' => $model,

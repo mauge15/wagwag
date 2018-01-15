@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\HistorialMedico */
 
-$this->title = 'Update Historial Medico: ' . $model->id;
+$this->title = 'Actualizar Historial Medico: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Historial Medicos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';

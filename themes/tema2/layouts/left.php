@@ -37,7 +37,7 @@
                     'url' => '#',
                     'items' => [
                         ['label' => 'Nuevo', 'icon' => 'plus-square', 'url' => ['/propietario/create'],],
-                        ['label' => 'Gestionar', 'icon' => 'dashboard', 'url' => ['/propietario'],],
+                        ['label' => 'Gestionar', 'icon' => 'dashboard', 'url' => ['/mascota'],],
                      ],
                  ],
 
