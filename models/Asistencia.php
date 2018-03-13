@@ -11,6 +11,9 @@ use Yii;
  * @property integer $id_mascota
  * @property string $llegada
  * @property string $salida
+ * @property string $fecha
+ * @property integer $tipo_asistencia
+
  */
 class Asistencia extends \yii\db\ActiveRecord
 {
@@ -29,8 +32,8 @@ class Asistencia extends \yii\db\ActiveRecord
     {
         return [
             [['id_mascota'], 'required'],
-            [['id_mascota'], 'integer'],
-            [['llegada', 'salida'], 'safe'],
+            [['id_mascota','tipo_asistencia'], 'integer'],
+            [['llegada', 'salida','fecha'], 'safe'],
         ];
     }
 
@@ -42,8 +45,22 @@ class Asistencia extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_mascota' => 'Id Mascota',
-            'llegada' => 'Llegada',
-            'salida' => 'Salida',
+            'llegada' => 'Hora de Llegada',
+            'salida' => 'Hora de Salida',
+            'tipo_asistencia' => 'Tipo Jornada',
+            'fecha'=>'Fecha',
         ];
+    }
+
+    public function beforeSave($insert) {
+        // unix timestamp
+        //$time = strtotime($this->fecha_nac);
+
+        // if you want a specific format
+        $time = date("Y-m-d", strtotime($this->fecha));
+        // any other custom validations you need for your date time
+        // e.g. isTheTimeOk($time);
+        $this->fecha = $time;
+        return parent::beforeSave($insert);
     }
 }

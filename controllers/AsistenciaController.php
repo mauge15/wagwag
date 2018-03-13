@@ -61,15 +61,22 @@ class AsistenciaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id_mascota)
     {
         $model = new Asistencia();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
+        } elseif (Yii::$app->request->isAjax) {
+            return $this->renderAjax('create', [
                 'model' => $model,
+                'id_mascota' => $id_mascota,
+            ]);
+        }
+        else
+        {
+            return $this->render('_form', [
+                        'model' => $model
             ]);
         }
     }

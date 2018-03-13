@@ -4,13 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\jui\AutoComplete;
-use yii\widgets\View;
+
 use app\models\Propietario;
 use app\models\Veterinario;
 use app\models\SociedadProtectora;
 use app\models\Temperamento;
 use app\models\Raza;
 use yii\web\JsExpression;
+use yii\web\View;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Propietario */
@@ -36,9 +37,18 @@ $(document).on('keypress', 'input', function(e) {
 
 EOT_JS
 );
-?>
 
-<?php
+$buttonToggler = <<<JS
+    toggleInput=function(src){
+      if(src.checked){
+        $( "#hiddenDiv" ).show();
+       }else{
+         $( "#hiddenDiv" ).hide();
+       }
+    }
+JS;
+$this->registerJs($buttonToggler, View::POS_READY);
+
 //$type_list= Referencia::model()->findAll();
 $type_list= ArrayHelper::map($listReferencia,'id','tipo');
 
@@ -107,7 +117,8 @@ $dataRaza = Raza::find()
                 <!--form mascota-->
                 <div class="mascota-form">
                     <?= $form->field($modelMascota, 'nombre')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($modelMascota, 'fecha_nac')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '99/99/9999']) ?>
+                     <?= $form->field($modelMascota, 'fecha_nac')->widget(\yii\jui\DatePicker::className(), ['language' => 'es','dateFormat' => 'dd-MM-yyyy',]) ?>
+
                     <?= $form->field($modelMascota, 'chip')->textInput() ?>
                     <?php echo "<b>Raza</b><br>";?>
                     <?php
@@ -127,7 +138,7 @@ $dataRaza = Raza::find()
                     <?= Html::activeHiddenInput($modelMascota, 'id_raza') ?>
                     <?= $form->field($modelMascota, 'sexo')->radioList(array('m'=>'Macho','h' => 'Hembra')) ?>
                     <?= $form->field($modelMascota, 'esterilizado')->checkbox() ?>
-                    <?= $form->field($modelMascota, 'fecha_ult_celo')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '99/99/9999']) ?>
+                     <?= $form->field($modelMascota, 'fecha_ult_celo')->widget(\yii\jui\DatePicker::className(), ['language' => 'es','dateFormat' => 'dd-MM-yyyy',]) ?>
                     <?= $form->field($modelMascota, 'adoptado' )->checkbox( array( 'onChange' => 'javascript:toggleInput(this)' )) ?>
                     <div id="hiddenDiv" style="display: none">
                     <?php 

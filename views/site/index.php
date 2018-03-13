@@ -7,8 +7,10 @@ use app\models\Propietario;
 use app\models\Mascota;
 use yii\web\JsExpression;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\jui\Dialog;
 use yii\web\View;
+use yii\bootstrap\Modal;
 
 //$this->title = 'Wagwag App';
 /*Dialog::begin([
@@ -30,6 +32,38 @@ Dialog::end();*/
     View::POS_READY,
     'my-button-handler'
 );*/
+
+
+ $this->registerJs(
+    "$(document).on('click', '.showModalButton', function(){
+        if ($('#modal').data('bs.modal').isShown) {
+            $('#modal').find('#modalContent')
+                    .load($(this).attr('value'));
+            //dynamiclly set the header for the modal via title tag
+            document.getElementById('modalHeader').innerHTML = '<h4>' + $(this).attr('title') + '</h4>';
+        } else {
+            //if modal isn't open; open it and load content
+            $('#modal').modal('show')
+                    .find('#modalContent')
+                    .load($(this).attr('value'));
+             //dynamiclly set the header for the modal via title tag
+            document.getElementById('modalHeader').innerHTML = '<h4>' + $(this).attr('title') + '</h4>';
+        }
+    });");
+
+
+
+yii\bootstrap\Modal::begin([
+    'headerOptions' => ['id' => 'modalHeader'],
+    'id' => 'modal',
+    'size' => 'modal-lg',
+    'closeButton' => ['id' => 'close-button'],  
+    //keeps from closing modal with esc key or by clicking out of the modal.
+    // user must click cancel or X to close
+    'clientOptions' => ['keyboard' => TRUE]
+]);
+echo "<div id='modalContent'></div>";
+yii\bootstrap\Modal::end();
 
 $this->registerJs(
 "$('#calendar').fullCalendar({
@@ -79,6 +113,10 @@ View::POS_READY)
                         </div>
                     </div>
                     <div class="box-body">
+
+                        <?= Html::button('Detalles', ['value' => Url::to(['asistencia/create']), 'title' => 'Fichaje', 'class' => 'showModalButton loadMainContent btn btn-success']); ?>
+
+
                         <?= GridView::widget([
                         'dataProvider' => $dataProvider,
                         'filterModel' => $searchModel,
@@ -119,34 +157,45 @@ View::POS_READY)
                             // 'id_historial_medico',
                             // 'id_historial_comportamiento',
 
-                            ['class' => 'yii\grid\ActionColumn',
+                            /*['class' => 'yii\grid\ActionColumn',
                             'header'=> 'Acciones',
-                            'controller' => 'mascota'],
+                            'controller' => 'mascota'
+                        ],*/
 
                             ['class' => 'yii\grid\ActionColumn',
                             'template' => '{asistencia}',
-                            'header' => 'Asistencia',
+                            'header' => 'Fichar',
                             'buttons' => [
                                 'asistencia' => function($url, $model)
                                 {
-                                    return Html::a('<span class="glyphicon glyphicon-ok"></span>', ['delete', 'id' => $model->id], [
-                                        'class' => '',
-                                        'data' => [
-                                            'confirm' => 'Are you absolutely sure ? You will lose all the information about this user with this action.',
-                                            'method' => 'post',
-                                        ],
-                                        ]);
+                                    return Html::a(
+                                        '<span title="Fichaje" class="glyphicon glyphicon-calendar"></span>',
+                                        Url::to(['asistencia/create'])
+                                    );
                                 }
                             ]
                             ],
 
-                             [
+
+                            ['class' => 'yii\grid\ActionColumn',
+                            'template' => '{detalle}',
+                            'header' => 'Detalle',
+                            'buttons' => [
+                                'detalle' => function($url, $model)
+                                {
+                                    return Html::button('', ['value' => Url::to(['asistencia/create','id_mascota'=>$model->id]), 'title' => 'Detalles', 'class' => 'showModalButton glyphicon glyphicon-calendar']);
+                                }
+                            ]
+                            ],
+
+
+                            /* [
                                 'class'=>'yii\grid\DataColumn',
-                                'label'=>'Dias',
+                                'label'=>'Detalle',
                                 'value'=>function($data){
                                     return 2;
                                 },
-                            ],
+                            ],*/
                         ],
                         ]); ?>   
                     </div>

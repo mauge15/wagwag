@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use app\models\BonoComprado;
+use app\models\Propietario;
 
 /**
  * MascotaController implements the CRUD actions for Mascota model.
@@ -73,14 +74,24 @@ class MascotaController extends Controller
        // grid filtering conditions
         $query->andFilterWhere([
             'id_mascota' => $id,
+            'activo' =>1,
         ]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        $model = $this->findModel($id);
+        $propietarioModel = Propietario::find()->where(["id"=>$model->id_propietario])->one();
+
+        //Cargar Bonos
+        $bonoActivo = BonoComprado::find()->where(['id_mascota' => $id,'activo'=>1])
+        ->one();
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'propietarioModel' => $propietarioModel,
+            'bonoCompradoModel' => $bonoActivo,
         ]);
     }
 

@@ -18,6 +18,7 @@ use app\models\Bono;
  * @property string $fecha_caducidad
  * @property integer $dias_utilizados
  * @property integer $dias_bono
+ * @property integer $activo
  */
 class BonoComprado extends \yii\db\ActiveRecord
 {
@@ -77,6 +78,7 @@ class BonoComprado extends \yii\db\ActiveRecord
         $this->fecha_caducidad = $fecha_caducidad_string;
         $this->dias_bono = isset($bono->dias) ? $bono->dias : 0;
         $this->dias_utilizados = 0;
+        $this->activo = 1;
         return parent::beforeSave($insert);
     }
 }
