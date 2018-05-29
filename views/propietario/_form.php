@@ -92,14 +92,14 @@ $dataRaza = Raza::find()
                 <!--form propietario -->
                 <div class="propietario-form">
                     <?php $form = ActiveForm::begin(); ?>
-                    <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'apellido')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'dni')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'nombre')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($model, 'apellido')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($model, 'dni')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
                     <?= $form->field($model, 'telefono')->textInput() ?>
-                    <?= $form->field($model, 'direccion')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'direccion')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
                     <?= $form->field($model, 'cod_postal')->textInput() ?>
-                    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'persona_contacto')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($model, 'persona_contacto')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
                     <?= $form->field($model, 'id_referencia')->radioList($type_list) ?>    
                 </div>
                 <!--fin form propietario-->    
@@ -116,7 +116,7 @@ $dataRaza = Raza::find()
             <div class="box-body">
                 <!--form mascota-->
                 <div class="mascota-form">
-                    <?= $form->field($modelMascota, 'nombre')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($modelMascota, 'nombre')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
                      <?= $form->field($modelMascota, 'fecha_nac')->widget(\yii\jui\DatePicker::className(), ['language' => 'es','dateFormat' => 'dd-MM-yyyy',]) ?>
 
                     <?= $form->field($modelMascota, 'chip')->textInput() ?>
@@ -186,13 +186,13 @@ $dataRaza = Raza::find()
             <div class="box-body">
                 <!--form historial meedico -->
                 <div class="historial-medico-form">
-                <?= $form->field($modelHistMedico, 'enf_cardiaca')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($modelHistMedico, 'ale_cutanea')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($modelHistMedico, 'ale_alimentaria')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($modelHistMedico, 'otras_limit')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($modelHistMedico, 'cancer')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($modelHistMedico, 'enf_endocrina')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($modelHistMedico, 'otras')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($modelHistMedico, 'enf_cardiaca')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                <?= $form->field($modelHistMedico, 'ale_cutanea')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                <?= $form->field($modelHistMedico, 'ale_alimentaria')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                <?= $form->field($modelHistMedico, 'otras_limit')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                <?= $form->field($modelHistMedico, 'cancer')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                <?= $form->field($modelHistMedico, 'enf_endocrina')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                <?= $form->field($modelHistMedico, 'otras')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
                 </div>
                 <!--fin form historial medico-->    
             </div>
@@ -208,19 +208,19 @@ $dataRaza = Raza::find()
             <div class="box-body">
                 <!--form historial comportamiento-->
                 <div class="historial-comportamiento-form">
-                    <?= $form->field($modelHistComp, 'ha_mordido')->textInput() ?>
-                    <?= $form->field($modelHistComp, 'ha_sido_mordido')->textInput() ?>
-                    <?= $form->field($modelHistComp, 'miedo_perro')->textInput() ?>
-                    <?= $form->field($modelHistComp, 'miedos')->textInput() ?>
-                    <?= $form->field($modelHistComp, 'protege_cosas')->textInput() ?>
-                    <?= $form->field($modelHistComp, 'gusta_jugar')->textInput() ?>
+                    <?= $form->field($modelHistComp, 'ha_mordido')->textInput(['style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($modelHistComp, 'ha_sido_mordido')->textInput(['style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($modelHistComp, 'miedo_perro')->textInput(['style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($modelHistComp, 'miedos')->textInput(['style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($modelHistComp, 'protege_cosas')->textInput(['style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($modelHistComp, 'gusta_jugar')->textInput(['style' => 'text-transform: uppercase']) ?>
                     <?= $form->field($modelHistComp, 'id_temperamento')->radioList($type_temperamento_list) ?>
                     <p><b>¿Cómo actúa frente a las siguientes experiencias?</b></p>
-                    <?= $form->field($modelHistComp, 'encuentro_perro')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($modelHistComp, 'persona_desconocida')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($modelHistComp, 'juega_perros')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($modelHistComp, 'juega_personas')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($modelHistComp, 'otra_info')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($modelHistComp, 'encuentro_perro')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($modelHistComp, 'persona_desconocida')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($modelHistComp, 'juega_perros')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($modelHistComp, 'juega_personas')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($modelHistComp, 'otra_info')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
                     <div class="form-group">
                         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
                     </div>

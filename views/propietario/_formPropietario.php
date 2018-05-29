@@ -27,7 +27,7 @@ use yii\web\JsExpression;
     <div class="col-sm-12">
         <div class="box box-solid box-info" data-widget="box-widget">
             <div class="box-header">
-                <h3 class="box-title">Datos Propietario</h3>
+                <h3 class="box-title">Datos Propietario x Cambio Aqui</h3>
             </div>
             <div class="box-body">
                 <!--form propietario -->
