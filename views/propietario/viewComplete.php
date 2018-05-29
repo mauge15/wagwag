@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="propietario-view">
 
-    <h1>Cliente: <?= Html::encode($this->title) ?></br>Número: 23423424</h1>
+    <h1>Cliente: <?= Html::encode($this->title) ?></br># Contrato: <?= $modelMascota->id ?></h1>
 
     <p>
         

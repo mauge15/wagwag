@@ -64,6 +64,7 @@ if ($model->adoptado==1)
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            'id',
             'nombre',
             ['label'=>'Dueño',
             'value'=>$propietarioModel->nombre." ".$propietarioModel->apellido],
