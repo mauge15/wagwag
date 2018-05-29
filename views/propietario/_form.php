@@ -23,12 +23,14 @@ $this->registerJs( <<< EOT_JS
     
 
 $(document).on('keypress', 'input', function(e) {
-
- if(((e.keyCode == 13) || (e.keyCode == 3 )) && e.target.type !== 'submit') {
+ var source = e.target || e.srcElement;
+ //window.alert(source.type)
+ if(((e.keyCode == 13) || (e.keyCode == 3 )) && e.target.type == 'text') {
     //window.alert("hola");
     e.preventDefault();
     //return $(e.target).blur().focus();
-   var inputs = $(this).closest('form').find(':input:visible');
+   //var inputs = $(this).closest('form').find(':input:visible');
+    var inputs = $(':input');
             inputs.eq( inputs.index(this)+ 1 ).focus();
   }
 

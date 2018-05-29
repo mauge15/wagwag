@@ -13,6 +13,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="propietario-view">
 
+    <h1>Numero Contrato:</h1>
+
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
