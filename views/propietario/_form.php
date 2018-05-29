@@ -117,7 +117,7 @@ $dataRaza = Raza::find()
                 <!--form mascota-->
                 <div class="mascota-form">
                     <?= $form->field($modelMascota, 'nombre')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
-                     <?= $form->field($modelMascota, 'fecha_nac')->widget(\yii\jui\DatePicker::className(), ['language' => 'es','dateFormat' => 'dd-MM-yyyy',]) ?>
+                     <?= $form->field($modelMascota, 'fecha_nac')->widget(\yii\jui\DatePicker::className(), ['language' => 'es','dateFormat' => 'dd-MM-yyyy', 'clientOptions' => array('changeMonth'=> true,'changeYear' =>true, 'yearRange' => '2000:2020')]) ?>
 
                     <?= $form->field($modelMascota, 'chip')->textInput() ?>
                     <?php echo "<b>Raza</b><br>";?>
