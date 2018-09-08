@@ -6,6 +6,7 @@ use Yii;
 use app\models\Propietario;
 use app\models\Temperamento;
 use app\models\Mascota;
+use app\models\Raza;
 use app\models\HistorialMedico;
 use app\models\HistorialComportamiento;
 use app\models\PropietarioSearch;
@@ -77,14 +78,20 @@ class PropietarioController extends Controller
     public function actionCreate()
     {
         $modelPropietario = new Propietario();
+        $modelRaza = new Raza();
         $modelMascota = new Mascota();
         $modelHistMedico = new HistorialMedico();
         $modelHistComp = new HistorialComportamiento();
 
-        if ($modelPropietario->load(Yii::$app->request->post()) && $modelMascota->load(Yii::$app->request->post()) && $modelHistMedico->load(Yii::$app->request->post()) && $modelHistComp->load(Yii::$app->request->post()) && Model::validateMultiple([$modelPropietario, $modelMascota, $modelHistMedico,$modelHistComp])) {
+        if ($modelPropietario->load(Yii::$app->request->post()) && $modelRaza->load(Yii::$app->request->post()) && $modelMascota->load(Yii::$app->request->post()) && $modelHistMedico->load(Yii::$app->request->post()) && $modelHistComp->load(Yii::$app->request->post()) && Model::validateMultiple([$modelPropietario, $modelMascota, $modelHistMedico,$modelHistComp])) {
 
             $modelPropietario->save(false); // skip validation as model is already validated
             $modelMascota->id_propietario = $modelPropietario->id; 
+            if ($modelMascota->id_raza=="")
+            {
+                $modelRaza->save(false);
+                $modelMascota->id_raza = $modelRaza->id;
+            }
             $modelMascota->save(false); 
             $modelHistMedico->id_mascota = $modelMascota->id;
             $modelHistMedico->save(false);

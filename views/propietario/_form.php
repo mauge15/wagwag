@@ -125,7 +125,8 @@ $dataRaza = Raza::find()
                     <?php echo "<b>Raza</b><br>";?>
                     <?php
                         echo AutoComplete::widget([
-                            'name' => 'raza',
+                            'id' => 'raza-nombre',
+                            'name' => 'Raza[nombre]',
                             'options' => ['placeholder' => 'Seleccione la raza ...'],
                             'clientOptions' => [
                                 'source' => $dataRaza,
