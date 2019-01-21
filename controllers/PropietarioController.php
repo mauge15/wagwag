@@ -82,35 +82,67 @@ class PropietarioController extends Controller
         $modelMascota = new Mascota();
         $modelHistMedico = new HistorialMedico();
         $modelHistComp = new HistorialComportamiento();
-
-        if ($modelPropietario->load(Yii::$app->request->post()) && $modelRaza->load(Yii::$app->request->post()) && $modelMascota->load(Yii::$app->request->post()) && $modelHistMedico->load(Yii::$app->request->post()) && $modelHistComp->load(Yii::$app->request->post()) && Model::validateMultiple([$modelPropietario, $modelMascota, $modelHistMedico,$modelHistComp])) {
-
-            $modelPropietario->save(false); // skip validation as model is already validated
-            $modelMascota->id_propietario = $modelPropietario->id; 
-            if ($modelMascota->id_raza=="")
+        Yii::debug('start saving data ');
+        if ($modelPropietario->load(Yii::$app->request->post()) && 
+            $modelRaza->load(Yii::$app->request->post()) && 
+            $modelMascota->load(Yii::$app->request->post()) && 
+            $modelHistMedico->load(Yii::$app->request->post()) && 
+            $modelHistComp->load(Yii::$app->request->post()) )
+        {
+            Yii::debug('data saved by post');
+            Yii::debug(property_exists("Raza", "id_raza"));
+            //Yii::debug('Value of id Raza is '+var_export(property_exists("Raza", "id_raza")));
+            if (!property_exists("Raza", "id_raza"))
             {
-                $modelRaza->save(false);
-                $modelMascota->id_raza = $modelRaza->id;
+                    $modelRaza->save(false);
+                    $modelMascota->id_raza = $modelRaza->id;
+                    Yii::debug('creating Raza');
             }
-            $modelMascota->save(false); 
-            $modelHistMedico->id_mascota = $modelMascota->id;
-            $modelHistMedico->save(false);
-            $modelHistComp->id_mascota = $modelMascota->id;
-            $modelHistComp->save(false);
-            $modelMascota->id_historial_medico = $modelHistMedico->id;
-            $modelMascota->id_historial_comportamiento = $modelHistComp->id;
-            $modelMascota->save(false);
-            return $this->redirect(['view', 'id' => $modelPropietario->id]);
-        } else {
-            return $this->render('create', [
-                'modelPropietario' => $modelPropietario,
-                'modelMascota' => $modelMascota,
-                'modelHistMedico' => $modelHistMedico,
-                'modelHistComp' => $modelHistComp,
-                 'listReferencia' => Referencia::find()->all(),
-            ]);
+            /*if (is_null($modelMascota->id_raza))
+            {
+                Yii::debug('id raza es null');
+                    $modelRaza->save(false);
+                    $modelMascota->id_raza = $modelRaza->id;
+                    
+            }*/
+            if (Model::validateMultiple([$modelPropietario, $modelMascota, $modelHistMedico,$modelHistComp]))
+            {
+                    Yii::debug('enters validation');
+                    $modelPropietario->save(false); // skip validation as model is already validated
+                    $modelMascota->id_propietario = $modelPropietario->id; 
+                    $modelMascota->save(false); 
+                        $modelHistMedico->id_mascota = $modelMascota->id;
+                        $modelHistMedico->save(false);
+                        $modelHistComp->id_mascota = $modelMascota->id;
+                        $modelHistComp->save(false);
+                        $modelMascota->id_historial_medico = $modelHistMedico->id;
+                        $modelMascota->id_historial_comportamiento = $modelHistComp->id;
+                        $modelMascota->save(false);
+                        return $this->redirect(['view', 'id' => $modelPropietario->id]);
+            }
+            else 
+            {
+                    return $this->render('create', [
+                        'modelPropietario' => $modelPropietario,
+                        'modelMascota' => $modelMascota,
+                        'modelHistMedico' => $modelHistMedico,
+                        'modelHistComp' => $modelHistComp,
+                         'listReferencia' => Referencia::find()->all(),
+                    ]);
+            }
+        }
+        else 
+        {
+                    return $this->render('create', [
+                        'modelPropietario' => $modelPropietario,
+                        'modelMascota' => $modelMascota,
+                        'modelHistMedico' => $modelHistMedico,
+                        'modelHistComp' => $modelHistComp,
+                         'listReferencia' => Referencia::find()->all(),
+                    ]);
         }
     }
+    
 
 
     /**
@@ -154,7 +186,7 @@ class PropietarioController extends Controller
             ]);
         }
     }
-
+//nuebo
     /**
      * Deletes an existing Propietario model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
