@@ -92,7 +92,6 @@ class PropietarioController extends Controller
             Yii::debug('data saved by post');
             Yii::debug(property_exists("Raza", "id_raza"));
             //Yii::debug('Value of id Raza is '+var_export(property_exists("Raza", "id_raza")));
-            //Prueba
             if (!property_exists("Raza", "id_raza"))
             {
                     $modelRaza->save(false);
