@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 
 /**
  * HistorialMedicoVacunaController implements the CRUD actions for HistorialMedicoVacuna model.
+ * Prueba actualizacion
  */
 class HistorialMedicoVacunaController extends Controller
 {
