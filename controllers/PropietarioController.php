@@ -186,7 +186,7 @@ class PropietarioController extends Controller
             ]);
         }
     }
-//nuebo
+
     /**
      * Deletes an existing Propietario model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

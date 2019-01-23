@@ -41,7 +41,7 @@ if ($model->adoptado==1)
     <div class='col-sm-7'>
     <div class="box box-solid box-primary" data-widget="box-widget">
   <div class="box-header">
-    <h3 class="box-title">Datos Principales</h3>
+    <h3 class="box-title">Datos Principales P</h3>
     <div class="box-tools">
       <!-- This will cause the box to be removed when clicked -->
       <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
