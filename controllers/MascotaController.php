@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Mascota;
+use app\models\Anotacion;
 use app\models\MascotaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -86,12 +87,23 @@ class MascotaController extends Controller
         $bonoActivo = BonoComprado::find()->where(['id_mascota' => $id,'activo'=>1])
         ->one();
 
+        //Anotaciones Internas
+        $queryAnotacion = Anotacion::find();
+        $queryAnotacion->andFilterWhere([
+            'id_mascota' => $id,
+        ]);
+        $dataProviderAnotacion = new ActiveDataProvider([
+            'query'=> $queryAnotacion,
+        ]);
+
+
         return $this->render('view', [
             'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'propietarioModel' => $propietarioModel,
             'bonoCompradoModel' => $bonoActivo,
+            'dataProviderAnotacion' => $dataProviderAnotacion
         ]);
     }
 

@@ -41,7 +41,7 @@ if ($model->adoptado==1)
     <div class='col-sm-7'>
     <div class="box box-solid box-primary" data-widget="box-widget">
   <div class="box-header">
-    <h3 class="box-title">Datos Principales P</h3>
+    <h3 class="box-title">Datos Principales</h3>
     <div class="box-tools">
       <!-- This will cause the box to be removed when clicked -->
       <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -149,7 +149,7 @@ if ($model->adoptado==1)
       <div class="col-sm-12">
         <div class="box box-solid box-info" data-widget="box-widget">
           <div class="box-header">
-            <h3 class="box-title">Información Importante</h3>
+            <h3 class="box-title">Información Propietario</h3>
           </div>
           <div class="box-body">
             Probelmas de copmortamiento con personas desconocidas. Muerde a otros perros cuando esta comiendo
@@ -158,6 +158,40 @@ if ($model->adoptado==1)
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="box box-solid box-info" data-widget="box-widget">
+          <div class="box-header">
+            <h3 class="box-title">Información Interna</h3>
+          </div>
+          <div class="box-body">
+          
+
+            <?= GridView::widget([
+        'dataProvider' => $dataProviderAnotacion,
+        //'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'fecha',
+            'anotacion'
+        ],
+    ]); ?>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
 
 </div>
 </div>
+<div class="row">
+    <div class='col-sm-12'>
+      <div class="box box-solid box-primary" data-widget="box-widget">
+        <div class="box-header">
+          <h3 class="box-title">Historial Médico</h3>   
+        </div>
+      </div>
+    </div>
+  </div>
