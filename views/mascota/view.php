@@ -192,6 +192,54 @@ if ($model->adoptado==1)
         <div class="box-header">
           <h3 class="box-title">Historial Médico</h3>   
         </div>
+        <div class="box-body">
+
+              <?= DetailView::widget([
+        'model' => $histMedicoModel,
+        'attributes' => [
+            'id',
+            'enf_cardiaca',
+            'ale_alimentaria',
+            'ale_cutanea',
+            'otras_limit',
+            'cancer',
+            'enf_endocrina',
+            'otras',
+        ],
+    ]) ?>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class='col-sm-12'>
+      <div class="box box-solid box-primary" data-widget="box-widget">
+        <div class="box-header">
+          <h3 class="box-title">Historial Comportamiento</h3>   
+        </div>
+        <div class="box-body">
+
+             <?= DetailView::widget([
+        'model' => $histComportamientoModel,
+        'attributes' => [
+            'id',
+            'id_mascota',
+            'ha_mordido',
+            'ha_sido_mordido',
+            'miedo_perro',
+            'id_temperamento',
+            'juega_perros',
+            'juega_personas',
+            'persona_desconocida',
+            'otra_info',
+        ],
+    ]) ?>
+
+
+        </div>
       </div>
     </div>
   </div>

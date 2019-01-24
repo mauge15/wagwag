@@ -6,6 +6,8 @@ use Yii;
 use app\models\Mascota;
 use app\models\Anotacion;
 use app\models\MascotaSearch;
+use app\models\HistorialMedico;
+use app\models\HistorialComportamiento;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
@@ -82,7 +84,8 @@ class MascotaController extends Controller
         ]);
         $model = $this->findModel($id);
         $propietarioModel = Propietario::find()->where(["id"=>$model->id_propietario])->one();
-
+        $histMedicoModel = HistorialMedico::find()->where(["id_mascota"=>$id])->one();
+        $histComportamientoModel = HistorialComportamiento::find()->where(["id_mascota"=>$id])->one();
         //Cargar Bonos
         $bonoActivo = BonoComprado::find()->where(['id_mascota' => $id,'activo'=>1])
         ->one();
@@ -103,7 +106,9 @@ class MascotaController extends Controller
             'dataProvider' => $dataProvider,
             'propietarioModel' => $propietarioModel,
             'bonoCompradoModel' => $bonoActivo,
-            'dataProviderAnotacion' => $dataProviderAnotacion
+            'dataProviderAnotacion' => $dataProviderAnotacion,
+            'histComportamientoModel' => $histComportamientoModel,
+            'histMedicoModel' => $histMedicoModel
         ]);
     }
 
