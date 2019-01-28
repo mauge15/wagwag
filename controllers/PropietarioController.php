@@ -82,21 +82,21 @@ class PropietarioController extends Controller
         $modelMascota = new Mascota();
         $modelHistMedico = new HistorialMedico();
         $modelHistComp = new HistorialComportamiento();
-        Yii::debug('start saving data ');
+        //Yii::debug('start saving data ');
         if ($modelPropietario->load(Yii::$app->request->post()) && 
             $modelRaza->load(Yii::$app->request->post()) && 
             $modelMascota->load(Yii::$app->request->post()) && 
             $modelHistMedico->load(Yii::$app->request->post()) && 
             $modelHistComp->load(Yii::$app->request->post()) )
         {
-            Yii::debug('data saved by post');
-            Yii::debug(property_exists("Raza", "id_raza"));
+            //Yii::debug('data saved by post');
+            //Yii::debug(property_exists("Raza", "id_raza"));
             //Yii::debug('Value of id Raza is '+var_export(property_exists("Raza", "id_raza")));
             if (!property_exists("Raza", "id_raza"))
             {
                     $modelRaza->save(false);
                     $modelMascota->id_raza = $modelRaza->id;
-                    Yii::debug('creating Raza');
+                    //Yii::debug('creating Raza');
             }
             /*if (is_null($modelMascota->id_raza))
             {
@@ -107,7 +107,7 @@ class PropietarioController extends Controller
             }*/
             if (Model::validateMultiple([$modelPropietario, $modelMascota, $modelHistMedico,$modelHistComp]))
             {
-                    Yii::debug('enters validation');
+                    //Yii::debug('enters validation');
                     $modelPropietario->save(false); // skip validation as model is already validated
                     $modelMascota->id_propietario = $modelPropietario->id; 
                     $modelMascota->save(false); 
