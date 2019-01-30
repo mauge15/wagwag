@@ -9,6 +9,8 @@ use yii\helpers\Url;
 use yii\jui\Dialog;
 use yii\web\View;
 use yii\bootstrap\Modal;
+use app\models\Bono;
+use app\models\SociedadProtectora;
 
 
 /* @var $this yii\web\View */
