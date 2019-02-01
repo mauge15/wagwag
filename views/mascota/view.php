@@ -8,6 +8,7 @@ use app\models\SociedadProtectora;
 use yii\grid\GridView;
 use yii\web\JsExpression;
 use app\models\Veterinario;
+use app\models\Mascota;
 use app\models\Propietario;
 use yii\helpers\Url;
 use yii\jui\Dialog;
@@ -31,6 +32,30 @@ $buttonToggler = <<<JS
 JS;
 $this->registerJs($buttonToggler, View::POS_READY);
 
+$ajaxForm = <<<JS
+    $(".comment-form").submit(function(event) {
+            event.preventDefault(); // stopping submitting
+            var data = $(this).serializeArray();
+            var url = $(this).attr('action');
+            $.ajax({
+                url: url,
+                type: 'post',
+                dataType: 'json',
+                data: data
+            })
+            .done(function(response) {
+                if (response.data.success == true) {
+                    alert("Wow you commented");
+                }
+            })
+            .fail(function() {
+                console.log("error");
+            });
+        
+        });
+JS;
+
+$this->registerJs($ajaxForm, View::POS_READY);
 
 $data = Veterinario::find()
   ->select(["nombre as value","nombre as label","id as id"])
@@ -79,6 +104,15 @@ if ($model->adoptado==1)
     $nombreProtectora = "-";
   }
 }
+
+$raza = '';
+if (isset($model->id_raza))
+             {
+              //echo " por aqui";
+              $raza_clase = Raza::findOne($model->id_raza);
+              $raza = $raza_clase->nombre;
+             }
+
 ?>
 
 
@@ -95,9 +129,13 @@ if ($model->adoptado==1)
           </div>
         </div>
         <div class="box-body">
+        
         <!--form mascota-->
         <div class="">
-          <?php $form = ActiveForm::begin(); ?>
+          <?php $form = ActiveForm::begin(['id' => 'mascota', 
+    'action' => ['mascota/update'], 
+    'enableAjaxValidation' => true, 
+    'validationUrl' => 'validation-rul', ]); ?>
           <?= $form->field($model, 'nombre')->textInput(['maxlength' => true,'style'=>'width:300px']) ?>
 
           <?= $form->field($model, 'fecha_nac')->widget(\yii\jui\DatePicker::className(), [
@@ -109,6 +147,7 @@ if ($model->adoptado==1)
           <?php
             echo AutoComplete::widget([
                 'name' => 'raza',
+                'value' => $raza,
                 'options' => ['placeholder' => 'Seleccione la raza ...'],
                 'clientOptions' => [
                     'source' => $dataRaza,
@@ -120,11 +159,25 @@ if ($model->adoptado==1)
             ]);
             echo "<br><br>";
           ?>
+          
           <?= Html::activeHiddenInput($model, 'id_raza') ?>
           <?= $form->field($model, 'sexo')->radioList(array('m'=>'Macho','h' => 'Hembra')) ?>
           <?= $form->field($model, 'esterilizado')->checkbox() ?>
-          <?= $form->field($model, 'fecha_ult_celo')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '99/99/9999','options'=>['style'=>'width:200px']]) ?>
+
+
+          <?php // $form->field($model, 'fecha_ult_celo')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '99/99/9999','options'=>['style'=>'width:200px']]) ?>
+          
+          <?= $form->field($model, 'fecha_ult_celo')->widget(\yii\jui\DatePicker::className(), [
+            'language' => 'es',
+            'dateFormat' => 'dd-MM-yyyy',
+          ]) ?>
+
+
+
           <?= $form->field($model, 'adoptado' )->checkbox( array( 'onChange' => 'javascript:toggleInput(this)' )) ?>
+          
+
+
           <div id="hiddenDiv" style="display: none">
             <?php 
               echo AutoComplete::widget([

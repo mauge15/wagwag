@@ -36,6 +36,8 @@ class MascotaController extends Controller
     }
 
 
+
+
     /**
      * Lists all Mascota models.
      * @return mixed
@@ -117,6 +119,16 @@ class MascotaController extends Controller
         }
     }
 
+
+    public function actionValidate() 
+    { 
+        $model = new Mascota(); 
+        $request = \Yii::$app->getRequest(); 
+        if ($request->isPost && $model->load($request->post())) { 
+        \Yii::$app->response->format = Response::FORMAT_JSON; 
+        return ActiveForm::validate($model); 
+        } 
+    } 
 
 
 
