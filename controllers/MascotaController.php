@@ -157,10 +157,44 @@ class MascotaController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id="")
     {
-        $model = $this->findModel($id);
-
+        if (Yii::$app->request->isAjax) {
+            //$data = Yii::$app->request->post();
+            //data: { 'save_id' : fileid },
+            //$id =  $data['id'];
+            //$id = Yii::$app->getRequest()->getQueryParam('id');
+            //$model = $this->findModel($id);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $idMascotaInput = Yii::$app->request->post("id");
+            Yii::info('start saving data '.$idMascotaInput);
+            $model = $this->findModel($idMascotaInput);
+            if ($model->load(Yii::$app->request->post()) && $model->save())
+            {
+                    return [
+                        'data' => [
+                            'success' => true,
+                            'model' => $model,
+                            'message' => 'Datos guardados.',
+                        ],
+                        'code' => 0,
+                    ];
+            }
+            else 
+            {
+                return [
+                    'data' => [
+                        'success' => false,
+                        'model' => null,
+                        'message' => 'An error occured.',
+                    ],
+                    'code' => 1, // Some semantic codes that you know them for yourself
+                ];
+            }
+        }
+        else
+        {
+            $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //reenviar a la mascota
             return $this->redirect(['propietario/view','id' => $model->id_propietario]);
@@ -168,7 +202,7 @@ class MascotaController extends Controller
             return $this->render('update', [
                 'model' => $model,
             ]);
-        }
+        }}
     }
 
     /**

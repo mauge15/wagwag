@@ -125,18 +125,48 @@ class HistorialmedicoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id="")
     {
-        $model = $this->findModel($id);
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $idHistMedicoInput = Yii::$app->request->post("id");
+            $model = $this->findModel($idHistMedicoInput);
+            if ($model->load(Yii::$app->request->post()) && $model->save())
+            {
+                    return [
+                        'data' => [
+                            'success' => true,
+                            'model' => $model,
+                            'message' => 'Datos guardados.',
+                        ],
+                        'code' => 0,
+                    ];
+            }
+            else 
+            {
+                return [
+                    'data' => [
+                        'success' => false,
+                        'model' => null,
+                        'message' => 'An error occured.',
+                    ],
+                    'code' => 1, // Some semantic codes that you know them for yourself
+                ];
+            }
+        }
+        else
+        {
+            $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-              //reenviar a la mascota
-            $mascota = Mascota::findOne($model->id_mascota);
-            return $this->redirect(['propietario/view','id' => $mascota->id_propietario]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                //reenviar a la mascota
+                $mascota = Mascota::findOne($model->id_mascota);
+                return $this->redirect(['propietario/view','id' => $mascota->id_propietario]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
         }
     }
 

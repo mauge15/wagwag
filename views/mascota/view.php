@@ -8,6 +8,7 @@ use app\models\SociedadProtectora;
 use yii\grid\GridView;
 use yii\web\JsExpression;
 use app\models\Veterinario;
+use app\models\Anotacion;
 use app\models\Mascota;
 use app\models\Propietario;
 use yii\helpers\Url;
@@ -17,6 +18,10 @@ use yii\bootstrap\Modal;
 use yii\widgets\ActiveForm;
 use yii\jui\AutoComplete;
 use yii\jui\DatePicker;
+use yii\helpers\ArrayHelper;
+use app\models\Temperamento;
+$listTemperamento = Temperamento::find()->all();
+$temperamento_list= ArrayHelper::map($listTemperamento,'id','descripcion');
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Mascota */
@@ -33,7 +38,7 @@ JS;
 $this->registerJs($buttonToggler, View::POS_READY);
 
 $ajaxForm = <<<JS
-    $(".comment-form").submit(function(event) {
+    $(".ajax-form").submit(function(event) {
             event.preventDefault(); // stopping submitting
             var data = $(this).serializeArray();
             var url = $(this).attr('action');
@@ -45,7 +50,7 @@ $ajaxForm = <<<JS
             })
             .done(function(response) {
                 if (response.data.success == true) {
-                    alert("Wow you commented");
+                    alert(response.data.message);
                 }
             })
             .fail(function() {
@@ -61,21 +66,15 @@ $data = Veterinario::find()
   ->select(["nombre as value","nombre as label","id as id"])
   ->asArray()
    ->all();
-
-
 $dataRaza = Raza::find()
   ->select(["nombre as value","nombre as label","id as id"])
   ->asArray()
    ->all();
-
-   $dataPropietario = Propietario::find()
+$dataPropietario = Propietario::find()
   ->select(["CONCAT(nombre,' ',apellido) as value","CONCAT(nombre,' ',apellido) as label","id as id"])
   ->asArray()
    ->all();
-
-
-
-   $dataProtectora = SociedadProtectora::find()
+$dataProtectora = SociedadProtectora::find()
   ->select(["nombre as value","nombre as label","id as id"])
   ->asArray()
    ->all();
@@ -132,10 +131,15 @@ if (isset($model->id_raza))
         
         <!--form mascota-->
         <div class="">
-          <?php $form = ActiveForm::begin(['id' => 'mascota', 
-    'action' => ['mascota/update'], 
-    'enableAjaxValidation' => true, 
-    'validationUrl' => 'validation-rul', ]); ?>
+          <?php $form = ActiveForm::begin([ 
+                                            //'id' => 'mascota', 
+                                            'action' => ['mascota/update'], 
+                                            //'enableAjaxValidation' => true, 
+                                            //'validationUrl' => 'validation-rul', 
+                                            'options' => [
+                                              'class' => 'ajax-form'
+                                              ]
+                                            ]); ?>
           <?= $form->field($model, 'nombre')->textInput(['maxlength' => true,'style'=>'width:300px']) ?>
 
           <?= $form->field($model, 'fecha_nac')->widget(\yii\jui\DatePicker::className(), [
@@ -161,6 +165,8 @@ if (isset($model->id_raza))
           ?>
           
           <?= Html::activeHiddenInput($model, 'id_raza') ?>
+          <?= Html::activeHiddenInput($model, 'id') ?>
+
           <?= $form->field($model, 'sexo')->radioList(array('m'=>'Macho','h' => 'Hembra')) ?>
           <?= $form->field($model, 'esterilizado')->checkbox() ?>
 
@@ -194,6 +200,7 @@ if (isset($model->id_raza))
               echo "<br><br>";
             ?> 
           </div>
+        <?= Html::hiddenInput('id', $model->id)?>
         <?= Html::activeHiddenInput($model, 'id_protectora') ?>
         <div id="hiddenDiv" style="display: <?=isset($model->id_propietario) ? 'none':'block'?>"></div>
         <div class="form-group">
@@ -241,7 +248,7 @@ if (isset($model->id_raza))
       </div>
     </div>
   </div>
-    <div class="row">
+    <!--<div class="row">
       <div class="col-sm-12">
         <div class="box box-solid box-info" data-widget="box-widget">
           <div class="box-header">
@@ -252,7 +259,7 @@ if (isset($model->id_raza))
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
 
     <div class="row">
       <div class="col-sm-12">
@@ -272,7 +279,22 @@ if (isset($model->id_raza))
             'anotacion'
         ],
     ]); ?>
+             <?php $modelAnotacion = new Anotacion();
+             $form = ActiveForm::begin([ 
+                                            'action' => ['anotacion/create'], 
+                                            'options' => [
+                                              'class' => 'ajax-form'
+                                              ]
+                                            ]); ?>
+           <?= $form->field($modelAnotacion, 'id_mascota')->hiddenInput(['value'=>$model->id])->label(false); ?>
+          <?= $form->field($modelAnotacion, 'anotacion')->textarea(['rows' => 3]) ?>
 
+          <?= $form->field($modelAnotacion, 'fecha')->hiddenInput(['value'=>date("Y-m-d")])->label(false); ?>   
+
+            <div class="form-group">
+                <?= Html::submitButton($modelAnotacion->isNewRecord ? 'Añadir' : 'Guardar', ['class' => $histMedicoModel->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            </div>
+            <?php ActiveForm::end(); ?>
 
           </div>
         </div>
@@ -289,20 +311,26 @@ if (isset($model->id_raza))
           <h3 class="box-title">Historial Médico</h3>   
         </div>
         <div class="box-body">
+             <?php $form = ActiveForm::begin([ 
+                                            'action' => ['historialmedico/update'], 
+                                            'options' => [
+                                              'class' => 'ajax-form'
+                                              ]
+                                            ]); ?>
+            <?= $form->field($histMedicoModel, 'enf_cardiaca')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($histMedicoModel, 'ale_alimentaria')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($histMedicoModel, 'ale_cutanea')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($histMedicoModel, 'otras_limit')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($histMedicoModel, 'cancer')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($histMedicoModel, 'enf_endocrina')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($histMedicoModel, 'otras')->textInput(['maxlength' => true]) ?>
+            <?= Html::hiddenInput('id', $histMedicoModel->id)?>
 
-              <?= DetailView::widget([
-        'model' => $histMedicoModel,
-        'attributes' => [
-            'id',
-            'enf_cardiaca',
-            'ale_alimentaria',
-            'ale_cutanea',
-            'otras_limit',
-            'cancer',
-            'enf_endocrina',
-            'otras',
-        ],
-    ]) ?>
+
+            <div class="form-group">
+                <?= Html::submitButton($histMedicoModel->isNewRecord ? 'Crear' : 'Guardar', ['class' => $histMedicoModel->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            </div>
+            <?php ActiveForm::end(); ?>
 
 
         </div>
@@ -318,21 +346,29 @@ if (isset($model->id_raza))
         </div>
         <div class="box-body">
 
-             <?= DetailView::widget([
-        'model' => $histComportamientoModel,
-        'attributes' => [
-            'id',
-            'id_mascota',
-            'ha_mordido',
-            'ha_sido_mordido',
-            'miedo_perro',
-            'id_temperamento',
-            'juega_perros',
-            'juega_personas',
-            'persona_desconocida',
-            'otra_info',
-        ],
-    ]) ?>
+            <?php $form = ActiveForm::begin([ 
+                                            'action' => ['historialcomportamiento/update'], 
+                                            'options' => [
+                                              'class' => 'ajax-form'
+                                              ]
+                                            ]); ?>
+            <?= $form->field($histComportamientoModel, 'ha_mordido')->textInput() ?>
+            <?= $form->field($histComportamientoModel, 'ha_sido_mordido')->textInput() ?>
+            <?= $form->field($histComportamientoModel, 'miedo_perro')->textInput() ?>
+            <?= $form->field($histComportamientoModel, 'id_temperamento')->radioList($temperamento_list) ?>
+            <?= $form->field($histComportamientoModel, 'juega_perros')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($histComportamientoModel, 'juega_personas')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($histComportamientoModel, 'persona_desconocida')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($histComportamientoModel, 'otra_info')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($histComportamientoModel, 'encuentro_perro')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($histComportamientoModel, 'miedos')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($histComportamientoModel, 'protege_cosas')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($histComportamientoModel, 'gusta_jugar')->textInput(['maxlength' => true]) ?>
+            <?= Html::hiddenInput('id', $histComportamientoModel->id)?>
+            <div class="form-group">
+                <?= Html::submitButton($histComportamientoModel->isNewRecord ? 'Crear' : 'Guardar', ['class' => $histComportamientoModel->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            </div>
+            <?php ActiveForm::end(); ?>
 
 
         </div>
