@@ -82,6 +82,45 @@ class AnotacionController extends Controller
         }
     }
 
+
+    /**
+     * Creates a new Anotacion model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateAjax()
+    {
+        $model = new Anotacion();
+      
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            //$idMascotaInput = Yii::$app->request->post("id");
+            if ($model->load(Yii::$app->request->post()) && $model->save())
+            {
+                    return [
+                        'data' => [
+                            'success' => true,
+                            'model' => $model,
+                            'message' => 'Datos guardados.',
+                        ],
+                        'code' => 0,
+                    ];
+            }
+            else 
+            {
+                return [
+                    'data' => [
+                        'success' => false,
+                        'model' => null,
+                        'message' => 'An error occured.',
+                    ],
+                    'code' => 1, // Some semantic codes that you know them for yourself
+                ];
+            }
+        
+    }
+
+
+
     /**
      * Updates an existing Anotacion model.
      * If update is successful, the browser will be redirected to the 'view' page.

@@ -20,6 +20,7 @@ use yii\jui\AutoComplete;
 use yii\jui\DatePicker;
 use yii\helpers\ArrayHelper;
 use app\models\Temperamento;
+use yii\widgets\Pjax;
 $listTemperamento = Temperamento::find()->all();
 $temperamento_list= ArrayHelper::map($listTemperamento,'id','descripcion');
 
@@ -38,9 +39,14 @@ JS;
 $this->registerJs($buttonToggler, View::POS_READY);
 
 $ajaxForm = <<<JS
+//$(document).pjax('a', '#pjax-container');
+
     $(".ajax-form").submit(function(event) {
             event.preventDefault(); // stopping submitting
-            var data = $(this).serializeArray();
+            event.stopImmediatePropagation();
+           
+
+           var data = $(this).serializeArray();
             var url = $(this).attr('action');
             $.ajax({
                 url: url,
@@ -51,12 +57,14 @@ $ajaxForm = <<<JS
             .done(function(response) {
                 if (response.data.success == true) {
                     alert(response.data.message);
+                    $.pjax.reload('#gridViewAnotation', "");
                 }
             })
             .fail(function() {
                 console.log("error");
             });
         
+        //window.alert("prueba ajax");
         });
 JS;
 
@@ -132,7 +140,6 @@ if (isset($model->id_raza))
         <!--form mascota-->
         <div class="">
           <?php $form = ActiveForm::begin([ 
-                                            //'id' => 'mascota', 
                                             'action' => ['mascota/update'], 
                                             //'enableAjaxValidation' => true, 
                                             //'validationUrl' => 'validation-rul', 
@@ -141,7 +148,6 @@ if (isset($model->id_raza))
                                               ]
                                             ]); ?>
           <?= $form->field($model, 'nombre')->textInput(['maxlength' => true,'style'=>'width:300px']) ?>
-
           <?= $form->field($model, 'fecha_nac')->widget(\yii\jui\DatePicker::className(), [
             'language' => 'es',
             'dateFormat' => 'dd-MM-yyyy',
@@ -166,24 +172,13 @@ if (isset($model->id_raza))
           
           <?= Html::activeHiddenInput($model, 'id_raza') ?>
           <?= Html::activeHiddenInput($model, 'id') ?>
-
           <?= $form->field($model, 'sexo')->radioList(array('m'=>'Macho','h' => 'Hembra')) ?>
           <?= $form->field($model, 'esterilizado')->checkbox() ?>
-
-
-          <?php // $form->field($model, 'fecha_ult_celo')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '99/99/9999','options'=>['style'=>'width:200px']]) ?>
-          
           <?= $form->field($model, 'fecha_ult_celo')->widget(\yii\jui\DatePicker::className(), [
             'language' => 'es',
             'dateFormat' => 'dd-MM-yyyy',
           ]) ?>
-
-
-
           <?= $form->field($model, 'adoptado' )->checkbox( array( 'onChange' => 'javascript:toggleInput(this)' )) ?>
-          
-
-
           <div id="hiddenDiv" style="display: none">
             <?php 
               echo AutoComplete::widget([
@@ -269,27 +264,28 @@ if (isset($model->id_raza))
           </div>
           <div class="box-body">
           
+            <?php Pjax::begin(['id' => 'gridViewAnotation']);
+            echo GridView::widget([
+                  'dataProvider' => $dataProviderAnotacion,
+                  //'filterModel' => $searchModel,
+                  'columns' => [
+                      ['class' => 'yii\grid\SerialColumn'],
+                      'fecha',
+                      'anotacion'
+                  ],
+              ]); 
+            Pjax::end();?>
 
-            <?= GridView::widget([
-        'dataProvider' => $dataProviderAnotacion,
-        //'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            'fecha',
-            'anotacion'
-        ],
-    ]); ?>
              <?php $modelAnotacion = new Anotacion();
              $form = ActiveForm::begin([ 
-                                            'action' => ['anotacion/create'], 
+                                            'action' => ['anotacion/create-ajax'], 
                                             'options' => [
                                               'class' => 'ajax-form'
                                               ]
                                             ]); ?>
-           <?= $form->field($modelAnotacion, 'id_mascota')->hiddenInput(['value'=>$model->id])->label(false); ?>
-          <?= $form->field($modelAnotacion, 'anotacion')->textarea(['rows' => 3]) ?>
-
-          <?= $form->field($modelAnotacion, 'fecha')->hiddenInput(['value'=>date("Y-m-d")])->label(false); ?>   
+            <?= $form->field($modelAnotacion, 'id_mascota')->hiddenInput(['value'=>$model->id])->label(false); ?>
+            <?= $form->field($modelAnotacion, 'anotacion')->textarea(['rows' => 3]) ?>
+            <?= $form->field($modelAnotacion, 'fecha')->hiddenInput(['value'=>date("Y-m-d")])->label(false); ?>   
 
             <div class="form-group">
                 <?= Html::submitButton($modelAnotacion->isNewRecord ? 'Añadir' : 'Guardar', ['class' => $histMedicoModel->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
