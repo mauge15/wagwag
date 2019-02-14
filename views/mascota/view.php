@@ -44,8 +44,6 @@ $ajaxForm = <<<JS
     $(".ajax-form").submit(function(event) {
             event.preventDefault(); // stopping submitting
             event.stopImmediatePropagation();
-           
-
            var data = $(this).serializeArray();
             var url = $(this).attr('action');
             $.ajax({
@@ -111,104 +109,130 @@ if ($model->adoptado==1)
     $nombreProtectora = "-";
   }
 }
-
 $raza = '';
 if (isset($model->id_raza))
              {
-              //echo " por aqui";
               $raza_clase = Raza::findOne($model->id_raza);
               $raza = $raza_clase->nombre;
              }
 
 ?>
 
-
-<div class="row">
-    <div class='col-sm-7'>
-      <div class="box box-solid box-primary" data-widget="box-widget">
-        <div class="box-header">
-          <h3 class="box-title">Datos Principales</h3>
-          <div class="box-tools">
-            <!-- This will cause the box to be removed when clicked -->
-            <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-            <!-- This will cause the box to collapse when clicked -->
-            <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-          </div>
-        </div>
-        <div class="box-body">
+<div class="row"> <!-- Row 1 -->
+    <div class='col-sm-7'> <!--Columna 1 de Row 1 -->
         
-        <!--form mascota-->
-        <div class="">
-          <?php $form = ActiveForm::begin([ 
+          <div class="box box-solid box-primary" data-widget="box-widget"> <!--BOX Widget-->
+              <div class="box-header">
+                  <h3 class="box-title">Datos Principales Mascota</h3>
+                  <div class="box-tools">
+                    <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                    <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                  </div>
+              </div>
+              <div class="box-body"> <!--BOX BODY-->
+                  <div class="">  <!--form mascota-->
+                        <?php $form = ActiveForm::begin([ 
                                             'action' => ['mascota/update'], 
-                                            //'enableAjaxValidation' => true, 
-                                            //'validationUrl' => 'validation-rul', 
+                                            'options' => [
+                                              'class' => 'ajax-form' ]
+                                            ]); ?>
+                        <?= $form->field($model, 'nombre')->textInput(['maxlength' => true,'style'=>'width:300px']) ?>
+                        <?= $form->field($model, 'fecha_nac')->widget(\yii\jui\DatePicker::className(), [
+                              'language' => 'es',
+                              'dateFormat' => 'dd-MM-yyyy',
+                            ]) ?>
+                        <?= $form->field($model, 'chip')->textInput(['style'=>'width:300px']) ?>
+                        <?php echo "<b>Raza</b><br>";?>
+                        <?php
+                          echo AutoComplete::widget([
+                              'name' => 'raza',
+                              'value' => $raza,
+                              'options' => ['placeholder' => 'Seleccione la raza ...'],
+                              'clientOptions' => [
+                                  'source' => $dataRaza,
+                                  'autofill' => TRUE,
+                                  'select' => new JsExpression("function( event, ui ) {
+                              $('#mascota-id_raza').val(ui.item.id);}"), ],]);
+                          echo "<br><br>";
+                        ?>
+                        <?= Html::activeHiddenInput($model, 'id_raza') ?>
+                        <?= Html::activeHiddenInput($model, 'id') ?>
+                        <?= $form->field($model, 'sexo')->radioList(array('m'=>'Macho','h' => 'Hembra')) ?>
+                        <?= $form->field($model, 'esterilizado')->checkbox() ?>
+                        <?= $form->field($model, 'fecha_ult_celo')->widget(\yii\jui\DatePicker::className(), [
+                            'language' => 'es',
+                            'dateFormat' => 'dd-MM-yyyy',]) ?>
+                        <?= $form->field($model, 'adoptado' )->checkbox( array( 'onChange' => 'javascript:toggleInput(this)' )) ?>
+                        <div id="hiddenDiv" style="display: none">
+                            <?php 
+                              echo AutoComplete::widget([
+                                  'name' => 'protectora',
+                                  'options' => ['placeholder' => 'Seleccione la protectora ...', 'class' => 'form-control'],
+                                  'clientOptions' => [
+                                      'source' => $dataProtectora,
+                                      'autofill' => TRUE,
+                                      'select' => new JsExpression("function( event, ui ) {
+                                  $('#mascota-id_protectora').val(ui.item.id);}"),
+                                  ],
+                              ]);
+                              echo "<br><br>";
+                              ?> 
+                        </div>
+                        <?= Html::hiddenInput('id', $model->id)?>
+                        <?= Html::activeHiddenInput($model, 'id_protectora') ?>
+                        <div id="hiddenDiv" style="display: <?=isset($model->id_propietario) ? 'none':'block'?>"></div>
+                        <div class="form-group">
+                            <?= Html::submitButton($model->isNewRecord ? 'Añadir' : 'Guardar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                        </div>
+                        <?php ActiveForm::end(); ?>
+                  </div> <!--FIN form mascota-->
+                </div> <!--FIN BOX BODY-->
+              </div>  <!--FIN BOX Widget-->
+
+            
+          <div class="box box-solid box-primary" data-widget="box-widget"> <!--BOX Widget Propietario-->
+              <div class="box-header">
+                  <h3 class="box-title">Datos Propietario</h3>
+                  <div class="box-tools">
+                    <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                    <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                  </div>
+              </div>
+              <div class="box-body"> <!--BOX BODY Propietario-->
+                  <div class="">  <!--form Propieatario-->
+                          
+                    <?php $form = ActiveForm::begin([ 
+                                            'action' => ['propietario/update'], 
                                             'options' => [
                                               'class' => 'ajax-form'
                                               ]
                                             ]); ?>
-          <?= $form->field($model, 'nombre')->textInput(['maxlength' => true,'style'=>'width:300px']) ?>
-          <?= $form->field($model, 'fecha_nac')->widget(\yii\jui\DatePicker::className(), [
-            'language' => 'es',
-            'dateFormat' => 'dd-MM-yyyy',
-          ]) ?>
-          <?= $form->field($model, 'chip')->textInput(['style'=>'width:300px']) ?>
-          <?php echo "<b>Raza</b><br>";?>
-          <?php
-            echo AutoComplete::widget([
-                'name' => 'raza',
-                'value' => $raza,
-                'options' => ['placeholder' => 'Seleccione la raza ...'],
-                'clientOptions' => [
-                    'source' => $dataRaza,
-                    'autofill' => TRUE,
-                    'select' => new JsExpression("function( event, ui ) {
-                $('#mascota-id_raza').val(ui.item.id);
-            }"),
-                ],
-            ]);
-            echo "<br><br>";
-          ?>
-          
-          <?= Html::activeHiddenInput($model, 'id_raza') ?>
-          <?= Html::activeHiddenInput($model, 'id') ?>
-          <?= $form->field($model, 'sexo')->radioList(array('m'=>'Macho','h' => 'Hembra')) ?>
-          <?= $form->field($model, 'esterilizado')->checkbox() ?>
-          <?= $form->field($model, 'fecha_ult_celo')->widget(\yii\jui\DatePicker::className(), [
-            'language' => 'es',
-            'dateFormat' => 'dd-MM-yyyy',
-          ]) ?>
-          <?= $form->field($model, 'adoptado' )->checkbox( array( 'onChange' => 'javascript:toggleInput(this)' )) ?>
-          <div id="hiddenDiv" style="display: none">
-            <?php 
-              echo AutoComplete::widget([
-                  'name' => 'protectora',
-                  'options' => ['placeholder' => 'Seleccione la protectora ...', 'class' => 'form-control'],
-                  'clientOptions' => [
-                      'source' => $dataProtectora,
-                      'autofill' => TRUE,
-                      'select' => new JsExpression("function( event, ui ) {
-                  $('#mascota-id_protectora').val(ui.item.id);
-              }"),
-                  ],
-              ]);
-              echo "<br><br>";
-            ?> 
-          </div>
-        <?= Html::hiddenInput('id', $model->id)?>
-        <?= Html::activeHiddenInput($model, 'id_protectora') ?>
-        <div id="hiddenDiv" style="display: <?=isset($model->id_propietario) ? 'none':'block'?>"></div>
-        <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? 'Añadir' : 'Guardar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        </div>
-        <?php ActiveForm::end(); ?>
-      </div>
-    </div>
-</div>
+                     <?= $form->field($propietarioModel, 'nombre')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($propietarioModel, 'apellido')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($propietarioModel, 'dni')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($propietarioModel, 'telefono')->textInput() ?>
+                    <?= $form->field($propietarioModel, 'direccion')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($propietarioModel, 'cod_postal')->textInput() ?>
+                    <?= $form->field($propietarioModel, 'email')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+                    <?= $form->field($propietarioModel, 'persona_contacto')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?> 
+                    <?= Html::activeHiddenInput($propietarioModel, 'id_referencia') ?>  
+                    <?= Html::hiddenInput('id', $propietarioModel->id)?>
+                    <div class="form-group">
+                        <?= Html::submitButton($propietarioModel->isNewRecord ? 'Crear' : 'Guardar', ['class' => $propietarioModel->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                    </div>
+                    <?php ActiveForm::end(); ?>
 
-</div>
 
-<div class="col-sm-5">
+                  </div>
+              </div> <!--FIN BOX BODY Propietario-->    
+            </div> <!-- FIN BOX Widget Propieatario-->               
+                        
+
+
+
+          </div> <!--FIN Columna 1 de Row 1 -->
+
+<div class="col-sm-5">  <!-- Columna 2 de Row 1 -->
   <div class="row">
     <div class="col-sm-12">
       <div class="box box-solid box-info" data-widget="box-widget">
