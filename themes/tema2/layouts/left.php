@@ -38,6 +38,7 @@
                     'items' => [
                         ['label' => 'Nuevo', 'icon' => 'plus-square', 'url' => ['/propietario/create'],],
                         ['label' => 'Gestionar', 'icon' => 'dashboard', 'url' => ['/mascota'],],
+                        ['label' => 'Anotaciones', 'icon' => 'dashboard', 'url' => ['/anotacion'],],
                      ],
                  ],
 
