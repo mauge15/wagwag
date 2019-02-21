@@ -14,6 +14,8 @@ use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use app\models\BonoComprado;
 use app\models\Propietario;
+use app\models\VacunaMascota;
+use app\models\VacunaMascotaSearch;
 
 /**
  * MascotaController implements the CRUD actions for Mascota model.
@@ -99,6 +101,15 @@ class MascotaController extends Controller
             'query'=> $queryAnotacion,
         ]);
 
+        //Vacunas detalle
+        $queryVacuna = VacunaMascota::find();
+        $queryVacuna->andFilterWhere([
+            'id_mascota' => $id,
+            ]);
+
+        $vacunaDataProvider = new ActiveDataProvider([
+            'query' => $queryVacuna,
+        ]);
 
         return $this->render('view', [
             'model' => $model,
@@ -108,7 +119,8 @@ class MascotaController extends Controller
             'bonoCompradoModel' => $bonoActivo,
             'dataProviderAnotacion' => $dataProviderAnotacion,
             'histComportamientoModel' => $histComportamientoModel,
-            'histMedicoModel' => $histMedicoModel
+            'histMedicoModel' => $histMedicoModel,
+            'vacunaDataProvider' => $vacunaDataProvider
         ]);
     }
 

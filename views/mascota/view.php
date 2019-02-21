@@ -6,9 +6,13 @@ use app\models\Raza;
 use app\models\Bono;
 use app\models\SociedadProtectora;
 use yii\grid\GridView;
+use yii\widgets\ListView;
+use yii\data\ActiveDataProvider;
 use yii\web\JsExpression;
 use app\models\Veterinario;
+use app\models\VacunaMascota;
 use app\models\Anotacion;
+use app\models\Vacuna;
 use app\models\Mascota;
 use app\models\Propietario;
 use yii\helpers\Url;
@@ -21,8 +25,14 @@ use yii\jui\DatePicker;
 use yii\helpers\ArrayHelper;
 use app\models\Temperamento;
 use yii\widgets\Pjax;
+
 $listTemperamento = Temperamento::find()->all();
 $temperamento_list= ArrayHelper::map($listTemperamento,'id','descripcion');
+
+
+$listVacuna = Vacuna::find()->all();
+$vacuna_list= ArrayHelper::map($listVacuna,'id','nombre');
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Mascota */
@@ -56,6 +66,7 @@ $ajaxForm = <<<JS
                 if (response.data.success == true) {
                     alert(response.data.message);
                     $.pjax.reload('#gridViewAnotation', "");
+                    $.pjax.reload('#gridViewVacuna', "");
                 }
             })
             .fail(function() {
@@ -358,13 +369,13 @@ if (isset($model->id_raza))
     </div>
   </div>
 
-  <div class="row">
-    <div class='col-sm-12'>
-      <div class="box box-solid box-primary" data-widget="box-widget">
+  <div class="row">   <!-- Row Historial Comportamiento -->
+    <div class='col-sm-6'> <!-- Columna Historial Comportamiento -->
+      <div class="box box-solid box-primary" data-widget="box-widget"> <!-- Box Historial Comportamiento -->
         <div class="box-header">
           <h3 class="box-title">Historial Comportamiento</h3>   
         </div>
-        <div class="box-body">
+        <div class="box-body"> <!-- Box Body Historial Comportamiento -->
 
             <?php $form = ActiveForm::begin([ 
                                             'action' => ['historialcomportamiento/update'], 
@@ -391,7 +402,66 @@ if (isset($model->id_raza))
             <?php ActiveForm::end(); ?>
 
 
+        </div> <!-- FIN Box Body Historial Comportamiento -->
+      </div> <!-- FIN Box Historial Comportamiento -->
+    </div> <!-- FIN Columna Historial Comportamiento -->
+
+    <div class='col-sm-6'> <!-- Columna Vacuna -->
+      <div class="box box-solid box-primary" data-widget="box-widget"> <!-- Box Vacuna -->
+        <div class="box-header">
+          <h3 class="box-title">Vacunación</h3>   
         </div>
-      </div>
-    </div>
-  </div>
+        <div class="box-body"> <!-- Box Body Vacuna -->
+        <?php Pjax::begin(['id' => 'gridViewVacuna']);   ?>                                
+        <?= GridView::widget([
+        'dataProvider' => $vacunaDataProvider,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'id_mascota',
+            [
+              'class'=>'yii\grid\DataColumn',
+              'label'=>'Nombre Vacuna',
+              'enableSorting' => TRUE,
+              'value'=>function($data){
+                  $nomCompleto = "No Asignado";
+                  if (isset($data->id_vacuna))
+                  {
+                      $prop = Vacuna::findOne($data->id_vacuna);
+                      $nomCompleto = $prop->nombre;
+
+                  }
+                  return $nomCompleto;
+              },
+          ],
+            'fecha',
+            'proxima_fecha'
+          ],
+        ]); ?>
+        <?php Pjax::end();?>
+        <?php $modelVacuna = new VacunaMascota();
+        $formVacuna = ActiveForm::begin([ 
+                                      'action' => ['vacuna-mascota/create-ajax'], 
+                                      'options' => [
+                                        'class' => 'ajax-form'
+                                        ]
+                                      ]); ?>
+        <?= $formVacuna->field($modelVacuna, 'id_mascota')->hiddenInput(['value'=>$model->id])->label(false); ?>
+        <?= $formVacuna->field($modelVacuna, 'id_vacuna')->dropDownList($vacuna_list, ['prompt' => 'Seleccione Uno' ])->label("Tipo vacuna");    ?>                            
+        <?= $form->field($modelVacuna, 'fecha')->widget(\yii\jui\DatePicker::className(), [
+                              'language' => 'es',
+                              'dateFormat' => 'dd-MM-yyyy',
+                            ]) ?>
+
+        <div class="form-group">
+          <?= Html::submitButton($modelVacuna->isNewRecord ? 'Añadir' : 'Guardar', ['class' => $modelVacuna->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
+        <?php ActiveForm::end(); ?>
+        </div>
+
+        </div> <!-- FIN Box Body Vacuna -->
+      </div> <!-- FIN Box Vacuna -->
+    </div> <!-- FIN Columna Vacuna -->
+
+
+
+  </div> <!-- FIN Row Historial Comportamiento -->
