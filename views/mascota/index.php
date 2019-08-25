@@ -66,7 +66,7 @@ yii\bootstrap\Modal::end();
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'id',
+            //'id',
             'nombre',
             //'fecha_nac',
             [
@@ -101,7 +101,10 @@ yii\bootstrap\Modal::end();
             // 'id_historial_comportamiento',
 
             ['class' => 'yii\grid\ActionColumn',
-            'header' => 'Acciones'],
+            'header' => 'Acciones',
+            'template' => '{view} {delete}',
+            ]
+            ,
             ['class' => 'yii\grid\ActionColumn',
                 'header' => 'Info Interna',
                 'template'=>'{web}',

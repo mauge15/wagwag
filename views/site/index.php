@@ -114,7 +114,9 @@ View::POS_READY)
                     </div>
                     <div class="box-body">
 
-                        <?= Html::button('Detalles', ['value' => Url::to(['asistencia/create']), 'title' => 'Fichaje', 'class' => 'showModalButton loadMainContent btn btn-success']); ?>
+                        <?php
+                        //Html::button('Detalles', ['value' => Url::to(['asistencia/create']), 'title' => 'Fichaje', 'class' => 'showModalButton loadMainContent btn btn-success']); 
+                        ?>
 
 
                         <?= GridView::widget([
@@ -162,7 +164,7 @@ View::POS_READY)
                             'controller' => 'mascota'
                         ],*/
 
-                            ['class' => 'yii\grid\ActionColumn',
+                           /* ['class' => 'yii\grid\ActionColumn',
                             'template' => '{asistencia}',
                             'header' => 'Fichar',
                             'buttons' => [
@@ -174,12 +176,12 @@ View::POS_READY)
                                     );
                                 }
                             ]
-                            ],
+                            ],*/
 
 
                             ['class' => 'yii\grid\ActionColumn',
                             'template' => '{detalle}',
-                            'header' => 'Detalle',
+                            'header' => 'Fichar',
                             'buttons' => [
                                 'detalle' => function($url, $model)
                                 {
@@ -189,13 +191,17 @@ View::POS_READY)
                             ],
 
 
-                            /* [
-                                'class'=>'yii\grid\DataColumn',
-                                'label'=>'Detalle',
-                                'value'=>function($data){
-                                    return 2;
-                                },
-                            ],*/
+                             [
+                                'class'=>'yii\grid\ActionColumn',
+                                'template'=>'{detalle}',
+                                'header'=>'Datos',
+                                'buttons' => [
+                                    'detalle' => function($url, $model)
+                                    {
+                                        return Html::button('', ['value' => Url::to(['asistencia/create','id_mascota'=>$model->id]), 'title' => 'Detalles', 'class' => 'showModalButton glyphicon glyphicon-calendar']);
+                                    }
+                                ]
+                            ],
                         ],
                         ]); ?>   
                     </div>

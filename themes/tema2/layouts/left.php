@@ -39,6 +39,7 @@
                         ['label' => 'Nuevo', 'icon' => 'plus-square', 'url' => ['/propietario/create'],],
                         ['label' => 'Gestionar', 'icon' => 'dashboard', 'url' => ['/mascota'],],
                         ['label' => 'Anotaciones', 'icon' => 'dashboard', 'url' => ['/anotacion'],],
+                        ['label' => 'Compra Bono', 'icon' => 'plus-square', 'url' => ['/bonocomprado/create'],],
                      ],
                  ],
 
@@ -52,7 +53,7 @@
 	                     ],
 	                 ],*/
 
-                     [
+                     /*[
                         'label' => 'Guardería',
                         'icon' => 'home',
                         'url' => '#',
@@ -60,14 +61,14 @@
                             ['label' => 'Nuevo Servicio', 'icon' => 'plus-square', 'url' => ['/bonocomprado/create'],],
                             ['label' => 'Gestionar', 'icon' => 'dashboard', 'url' => ['/mascota'],],
                          ],
-                     ],
+                     ],*/
 
 			
                     ['label' => 'Asistencia', 'icon' => 'calendar', 'url' => ['/debug']],
 
-                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
+                   /* ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     
-                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],*/
                     
                 ],
             ]
