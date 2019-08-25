@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Anotacion;
 use app\models\AnotacionSearch;
+use app\models\MascotaAnotacionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +36,9 @@ class AnotacionController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new AnotacionSearch();
+        //$searchModel = new AnotacionSearch();
+        $searchModel = new MascotaAnotacionSearch();
+        $query = Yii::$app->request->queryParams;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

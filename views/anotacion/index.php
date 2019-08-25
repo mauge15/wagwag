@@ -3,11 +3,12 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use app\models\Mascota;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AnotacionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Anotacions';
+$this->title = 'Anotaciones';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="anotacion-index">
@@ -25,13 +26,28 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+           /* [
+                'class'=>'yii\grid\DataColumn',
+                'label'=>'Mascota',
+                'enableSorting' => TRUE,
+                'value'=>function($data){
+                    $nomCompleto = "No Asignado";
+                    if (isset($data->id_mascota))
+                    {
+                        $prop = Mascota::findOne($data->id_mascota);
+                        $nomCompleto = $prop->nombre;
 
-            'id',
-            'id_mascota',
+                    }
+                    return $nomCompleto;
+                },
+            ],*/
+            //'id',
+            //'id_mascota',
+            'nombre:ntext',
             'anotacion:ntext',
             'fecha',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
     <?php Pjax::end(); ?>

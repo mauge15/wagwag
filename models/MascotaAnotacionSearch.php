@@ -10,7 +10,7 @@ use app\models\MascotaAnotacion;
 /**
  * AnotacionSearch represents the model behind the search form of `app\models\Anotacion`.
  */
-class AnotacionSearch extends Anotacion
+class MascotaAnotacionSearch extends MascotaAnotacion
 {
     /**
      * {@inheritdoc}
@@ -18,8 +18,8 @@ class AnotacionSearch extends Anotacion
     public function rules()
     {
         return [
-            [['id', 'id_mascota'], 'integer'],
-            [['anotacion', 'fecha'], 'safe'],
+            [['id_anotacion', 'id_mascota'], 'integer'],
+            [['anotacion', 'fecha','nombre'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class AnotacionSearch extends Anotacion
      */
     public function search($params)
     {
-        $query = Anotacion::find();
+        $query = MascotaAnotacion::find();
 
         // add conditions that should always apply here
 
@@ -59,12 +59,13 @@ class AnotacionSearch extends Anotacion
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'id_anotacion' => $this->id_anotacion,
             'id_mascota' => $this->id_mascota,
             'fecha' => $this->fecha,
         ]);
 
         $query->andFilterWhere(['like', 'anotacion', $this->anotacion]);
+        $query->andFilterWhere(['like', 'nombre', $this->nombre]);
 
         return $dataProvider;
     }
