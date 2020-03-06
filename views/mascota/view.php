@@ -142,6 +142,7 @@ if (isset($model->id_raza))
               </div>
               <div class="box-body"> <!--BOX BODY-->
                   <div class="">  <!--form mascota-->
+ID CONTRATO: <?=$model->id?>
                         <?php $form = ActiveForm::begin([ 
                                             'action' => ['mascota/update'], 
                                             'options' => [
