@@ -29,7 +29,7 @@ class Mascota extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'MASCOTA';
+        return 'mascota';
     }
 
     /**
