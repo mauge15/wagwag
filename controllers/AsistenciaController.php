@@ -101,18 +101,21 @@ class AsistenciaController extends Controller
                 $bono = BonoComprado::findOne($model->id_bono_comprado);
                 if (isset($bono))
                 {
-                    $bono->dias_utilizados = $bono->dias_utilizados + 1;
-                    $bono->dias_bono = $bono->dias_bono-1;
-                    if ($bono->dias_bono==0)
+                    if ($model->entrada_salida==1)
                     {
-                        $bono->activo=0;
-                        $message = $message. " BONO INACTIVO, ya no quedan días.";
+                        $bono->dias_utilizados = $bono->dias_utilizados + 1;
+                        $bono->dias_bono = $bono->dias_bono-1;
+                        if ($bono->dias_bono==0)
+                        {
+                            $bono->activo=0;
+                            $message = $message. " BONO INACTIVO, ya no quedan días.";
+                        }
+                        else
+                        {
+                            $message = $message." Quedan ".$bono->dias_bono. " días disponibles.";
+                        }
+                        $bono->save();   
                     }
-                    else
-                    {
-                        $message = $message." Quedan ".$bono->dias_bono. " días disponibles.";
-                    }
-                    $bono->save();   
                 }
             }
 
