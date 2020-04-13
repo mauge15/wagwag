@@ -38,6 +38,7 @@ $ajaxForm = <<<JS
             .done(function(response) {
                 if (response.data.success == true) {
                     alert(response.data.message);
+                   
                     $.pjax.reload('#gridViewVacuna', "");
                 }
             })

@@ -65,7 +65,7 @@ $ajaxForm = <<<JS
             .done(function(response) {
                 if (response.data.success == true) {
                     alert(response.data.message);
-                    alert(response.data.objeto);
+                    //alert(response.data.objeto);
                     if (response.data.objeto=="anotacion")
                     {
                     $.pjax.reload('#gridViewAnotacion', "");
