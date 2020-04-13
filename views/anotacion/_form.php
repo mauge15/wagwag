@@ -42,7 +42,7 @@ $this->registerJs($ajaxForm, View::POS_READY);
 <div class="anotacion-form">
 
     <?php $form = ActiveForm::begin([ 
-                                            'action' => ['anotacion/create-ajax'], 
+                                            'action' => ['anotacion/createajax'], 
                                             'options' => [
                                               'class' => 'anotacion-ajax-form'
                                               ]
