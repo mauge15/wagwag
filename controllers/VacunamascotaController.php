@@ -63,6 +63,7 @@ class VacunamascotaController extends Controller
                             'success' => true,
                             'model' => $model,
                             'message' => 'Datos guardados.',
+                            'objeto' => 'vacuna',
                         ],
                         'code' => 0,
                     ];

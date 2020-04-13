@@ -65,8 +65,14 @@ $ajaxForm = <<<JS
             .done(function(response) {
                 if (response.data.success == true) {
                     alert(response.data.message);
-                    $.pjax.reload('#gridViewAnotation', "");
+                    alert(response.data.objeto);
+                    if (response.data.objeto=="anotacion")
+                    {
+                    $.pjax.reload('#gridViewAnotacion', "");
+                    }
+                    else{
                     $.pjax.reload('#gridViewVacuna', "");
+                    }
                 }
             })
             .fail(function() {
@@ -278,7 +284,7 @@ if (isset($model->id_raza))
         <div class="box box-solid box-info" data-widget="box-widget">
           <div class="box-header"><h3 class="box-title">Información Interna</h3></div>
           <div class="box-body">
-            <?php Pjax::begin(['id' => 'gridViewAnotation']);
+            <?php Pjax::begin(['id' => 'gridViewAnotacion']);
             echo GridView::widget([
                   'dataProvider' => $dataProviderAnotacion,
                   //'filterModel' => $searchModel,

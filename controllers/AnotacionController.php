@@ -104,6 +104,7 @@ class AnotacionController extends Controller
                             'success' => true,
                             'model' => $model,
                             'message' => 'Datos guardados.',
+                            'objeto' => 'anotacion',
                         ],
                         'code' => 0,
                     ];
