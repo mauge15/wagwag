@@ -69,6 +69,7 @@ $ajaxForm = <<<JS
                     if (response.data.objeto=="anotacion")
                     {
                     $.pjax.reload('#gridViewAnotacion', "");
+                    $("#anotacion-anotacion").val("");
                     }
                     else{
                     $.pjax.reload('#gridViewVacuna', "");
