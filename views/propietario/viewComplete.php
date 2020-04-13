@@ -241,7 +241,7 @@ $this->registerJs($ajaxForm, View::POS_READY);
                     <?php Pjax::end();?>
                     <?php $modelVacuna = new VacunaMascota();
                     $formVacuna = ActiveForm::begin([ 
-                                                'action' => ['vacuna-mascota/create-ajax'], 
+                                                'action' => ['vacunamascota/createajax'], 
                                                 'options' => [
                                                     'class' => 'ajax-form'
                                                     ]
