@@ -4,12 +4,14 @@ namespace app\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\MascotaSearch;
+use app\models\Asistencia;
 
 class SiteController extends Controller
 {
@@ -65,9 +67,19 @@ class SiteController extends Controller
         $searchModel = new MascotaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $hoy = date("Y-m-d");
+        $lista_asistencia = Asistencia::find()->where(['fecha' => $hoy]);
+        $dataProvider_asistencia = new ActiveDataProvider([
+            'query' => $lista_asistencia,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'dataProvider_asistencia' => $dataProvider_asistencia,
         ]);
     }
 

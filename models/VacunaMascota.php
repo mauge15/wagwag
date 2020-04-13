@@ -46,7 +46,10 @@ class VacunaMascota extends \yii\db\ActiveRecord
             'id_mascota' => 'Id Mascota',
             'id_vacuna' => 'Id Vacuna',
             'fecha' => 'Fecha',
-            'proxima_fecha' => 'Próxima fecha'
+            'proxima_fecha' => 'Próxima fecha',
+            'propietarioName' => 'Propietario',
+            'mascotaName' => 'Mascota',
+            'vacunaName' => 'Vacuna',
         ];
     }
 
@@ -80,4 +83,46 @@ class VacunaMascota extends \yii\db\ActiveRecord
         $this->fecha = $time;
         return parent::beforeSave($insert);
     }
+
+        /* Getter for Propietario Name */
+    public function getPropietarioName() {
+        $masc = Mascota::findOne($this->id_mascota);
+        if (isset($masc))
+        {
+        $prop = Propietario::findOne($masc->id_propietario);
+        $nom_prop = $prop->nombre . ' ' . $prop->apellido;
+        }
+        else
+        $nom_prop = "NA";
+        return $nom_prop;
+    }
+
+    public function getMascotaName()
+    {
+        $masc = Mascota::findOne($this->id_mascota);
+        return $masc->nombre;
+
+    }
+
+    public function getVacunaName()
+    {
+        $vac = Vacuna::findOne($this->id_vacuna);
+        return $vac->nombre;
+
+    }
+
+    /* ActiveRelation */
+   
+
+    public function getMascota()
+    {
+        return $this->hasOne(Mascota::className(), ['id' => 'id_mascota']);
+    }
+
+    public function getVacuna()
+    {
+        return $this->hasOne(Vacuna::className(), ['id' => 'id_vacuna']);
+    }
+
+
 }

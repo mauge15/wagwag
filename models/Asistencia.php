@@ -9,11 +9,11 @@ use Yii;
  *
  * @property integer $id
  * @property integer $id_mascota
- * @property string $llegada
- * @property string $salida
+ * @property string $hora
  * @property string $fecha
  * @property integer $tipo_asistencia
-
+ * @property integer $entrada_salida
+ * @property integer $id_bono_comprado
  */
 class Asistencia extends \yii\db\ActiveRecord
 {
@@ -32,8 +32,8 @@ class Asistencia extends \yii\db\ActiveRecord
     {
         return [
             [['id_mascota'], 'required'],
-            [['id_mascota','tipo_asistencia'], 'integer'],
-            [['llegada', 'salida','fecha'], 'safe'],
+            [['id_mascota','tipo_asistencia','entrada_salida','id_bono_comprado'], 'integer'],
+            [['hora','fecha'], 'safe'],
         ];
     }
 
@@ -45,10 +45,11 @@ class Asistencia extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_mascota' => 'Id Mascota',
-            'llegada' => 'Hora de Llegada',
-            'salida' => 'Hora de Salida',
-            'tipo_asistencia' => 'Tipo Jornada',
+            'hora' => 'Hora de Registro',
+            'tipo_asistencia' => 'Tipo de Jornada',
             'fecha'=>'Fecha',
+            'entrada_salida' => 'Entrada o Salida?',
+            'id_bono_comprado' => 'Bono Asociado',
         ];
     }
 

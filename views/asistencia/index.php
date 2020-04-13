@@ -26,8 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'id_mascota',
-            'llegada',
-            'salida',
+            'hora',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -132,6 +132,7 @@ if (isset($model->id_raza))
 <div class="row"> <!-- Row 1 -->
     <div class='col-sm-7'> <!--Columna 1 de Row 1 -->
         
+        <!--INICIO WIDGET MASCOTA-->
           <div class="box box-solid box-primary" data-widget="box-widget"> <!--BOX Widget-->
               <div class="box-header">
                   <h3 class="box-title">Datos Principales Mascota</h3>
@@ -142,8 +143,8 @@ if (isset($model->id_raza))
               </div>
               <div class="box-body"> <!--BOX BODY-->
                   <div class="">  <!--form mascota-->
-ID CONTRATO (MASCOTA): <?=$model->id?><br>
-ID CONTRATO (PROPIETARIO): <?=$propietarioModel->id?>
+                        ID CONTRATO (MASCOTA): <?=$model->id?><br>
+                        ID CONTRATO (PROPIETARIO): <?=$propietarioModel->id?>
                         <?php $form = ActiveForm::begin([ 
                                             'action' => ['mascota/update'], 
                                             'options' => [
@@ -200,9 +201,9 @@ ID CONTRATO (PROPIETARIO): <?=$propietarioModel->id?>
                         <?php ActiveForm::end(); ?>
                   </div> <!--FIN form mascota-->
                 </div> <!--FIN BOX BODY-->
-              </div>  <!--FIN BOX Widget-->
+        </div>  <!--FIN BOX Widget-->
 
-            
+            <!--INICIO WIDGET PROPIETARIO-->
           <div class="box box-solid box-primary" data-widget="box-widget"> <!--BOX Widget Propietario-->
               <div class="box-header">
                   <h3 class="box-title">Datos Propietario</h3>
@@ -238,69 +239,45 @@ ID CONTRATO (PROPIETARIO): <?=$propietarioModel->id?>
 
                   </div>
               </div> <!--FIN BOX BODY Propietario-->    
-            </div> <!-- FIN BOX Widget Propieatario-->               
-                        
-
-
-
+            </div> <!-- FIN BOX Widget Propietario-->               
           </div> <!--FIN Columna 1 de Row 1 -->
 
 <div class="col-sm-5">  <!-- Columna 2 de Row 1 -->
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="box box-solid box-info" data-widget="box-widget">
-        <div class="box-header">
-          <h3 class="box-title">Asistencia y Bonos</h3>
-        </div>
-        <div class="box-body">
-          <?php
-             if (isset($bonoCompradoModel))
-             {
-              //echo " por aqui";
-              $bono = Bono::findOne($bonoCompradoModel->id_bono);
-              echo DetailView::widget([
-              'model' => $bonoCompradoModel,
-              'attributes' => [
-                  ['label'=>'Tipo',
-                  'value'=>$bono->tipo],
-                  ['label'=>'Fecha de Caducidad',
-                  'value'=>date_format(date_create($bonoCompradoModel->fecha_caducidad),'d-m-Y')],
-                  ['label'=>'Días Utilizados',
-                  'value'=>$bonoCompradoModel->dias_utilizados],
-                  ['label'=>'Días Restantes',
-                  'value'=> $bonoCompradoModel->dias_bono],
-              ],
-              ]) ;
-            }
-          else
-          {
-            echo "No tiene bonos activos";
-          }?>
-        </div>
-      </div>
-    </div>
-  </div>
-    <!--<div class="row">
-      <div class="col-sm-12">
-        <div class="box box-solid box-info" data-widget="box-widget">
-          <div class="box-header">
-            <h3 class="box-title">Información Propietario</h3>
-          </div>
-          <div class="box-body">
-            Probelmas de copmortamiento con personas desconocidas. Muerde a otros perros cuando esta comiendo
-          </div>
-        </div>
-      </div>
-    </div>-->
 
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="box box-solid box-info" data-widget="box-widget">
-          <div class="box-header">
-            <h3 class="box-title">Información Interna</h3>
-          </div>
+      <!--INICIO WIDGET ASISTENCIA BONOS-->
+      <div class="box box-solid box-info" data-widget="box-widget">
+          <div class="box-header"> <h3 class="box-title">Asistencia y Bonos</h3> </div>
           <div class="box-body">
-          
+              <?php
+              echo GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    //'id_bono',
+                    [
+                      'class'=>'yii\grid\DataColumn',
+                      'label'=>'Tipo',
+                      'value'=>function($data){
+                          $nomCompleto = "No Asignado";
+                          if (isset($data->id_bono))
+                          {
+                              $prop = Bono::findOne($data->id_bono);
+                              $nomCompleto = $prop->tipo;
+                          }
+                          return $nomCompleto;
+                      },
+                    ],
+                    'fecha_compra',
+                    'fecha_caducidad',
+                    'dias_bono',
+                ],]);?>
+          </div> <!--FIN Div Body Asistencia Bonos-->
+      </div> <!--Fin WIDGET ASISTENCIA BONOS-->
+    
+    <!--WIDGET INFORMACION INTERNA-->
+        <div class="box box-solid box-info" data-widget="box-widget">
+          <div class="box-header"><h3 class="box-title">Información Interna</h3></div>
+          <div class="box-body">
             <?php Pjax::begin(['id' => 'gridViewAnotation']);
             echo GridView::widget([
                   'dataProvider' => $dataProviderAnotacion,
@@ -312,7 +289,6 @@ ID CONTRATO (PROPIETARIO): <?=$propietarioModel->id?>
                   ],
               ]); 
             Pjax::end();?>
-
              <?php $modelAnotacion = new Anotacion();
              $form = ActiveForm::begin([ 
                                             'action' => ['anotacion/create-ajax'], 
@@ -323,55 +299,98 @@ ID CONTRATO (PROPIETARIO): <?=$propietarioModel->id?>
             <?= $form->field($modelAnotacion, 'id_mascota')->hiddenInput(['value'=>$model->id])->label(false); ?>
             <?= $form->field($modelAnotacion, 'anotacion')->textarea(['rows' => 3]) ?>
             <?= $form->field($modelAnotacion, 'fecha')->hiddenInput(['value'=>date("Y-m-d")])->label(false); ?>   
-
             <div class="form-group">
                 <?= Html::submitButton($modelAnotacion->isNewRecord ? 'Añadir' : 'Guardar', ['class' => $histMedicoModel->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             </div>
             <?php ActiveForm::end(); ?>
+          </div> <!--FIN DIV Body Información Interna-->
+        </div><!--FIN WIDGET INFORMACION INTERNA--> 
 
-          </div>
+           
+      <!-- WIDGET Vacuna -->
+      <div class="box box-solid box-primary" data-widget="box-widget"> 
+        <!-- Box Vacuna -->
+        <div class="box-header"><h3 class="box-title">Vacunación</h3>   </div>
+        <div class="box-body"> <!-- Box Body Vacuna -->
+        <?php Pjax::begin(['id' => 'gridViewVacuna']);   ?>                                
+        <?= GridView::widget([
+        'dataProvider' => $vacunaDataProvider,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            //'id_mascota',
+            [
+              'class'=>'yii\grid\DataColumn',
+              'label'=>'Nombre Vacuna',
+              'enableSorting' => TRUE,
+              'value'=>function($data){
+                  $nomCompleto = "No Asignado";
+                  if (isset($data->id_vacuna))
+                  {
+                      $prop = Vacuna::findOne($data->id_vacuna);
+                      $nomCompleto = $prop->nombre;
+
+                  }
+                  return $nomCompleto;
+              },
+          ],
+            'fecha',
+            'proxima_fecha'
+          ],
+        ]); ?>
+        <?php Pjax::end();?>
+        <?php $modelVacuna = new VacunaMascota();
+        $formVacuna = ActiveForm::begin([ 
+                                      'action' => ['vacuna-mascota/create-ajax'], 
+                                      'options' => [
+                                        'class' => 'ajax-form'
+                                        ]
+                                      ]); ?>
+        <?= $formVacuna->field($modelVacuna, 'id_mascota')->hiddenInput(['value'=>$model->id])->label(false); ?>
+        <?= $formVacuna->field($modelVacuna, 'id_vacuna')->dropDownList($vacuna_list, ['prompt' => 'Seleccione Uno' ])->label("Tipo vacuna");    ?>                            
+        <?= $formVacuna->field($modelVacuna, 'fecha')->widget(\yii\jui\DatePicker::className(), [
+                              'language' => 'es',
+                              'dateFormat' => 'dd-MM-yyyy',
+                            ]) ?>
+
+        <div class="form-group">
+          <?= Html::submitButton($modelVacuna->isNewRecord ? 'Añadir' : 'Guardar', ['class' => $modelVacuna->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
-      </div>
-    </div>
+        <?php ActiveForm::end(); ?>
+        </div>
+        </div> <!-- FIN Box Body Vacuna -->
+      </div> <!-- FIN Widget Box Vacuna -->
 
+    </div> <!-- FIN Columna 2 de Row 1 -->                           
 
-</div>
-</div>
-<div class="row">
-    <div class='col-sm-12'>
+<div class="row"> <!-- Inicio Row2 -->
+<div class='col-sm-6'> <!-- Columna Historial Medico -->
       <div class="box box-solid box-primary" data-widget="box-widget">
-        <div class="box-header">
-          <h3 class="box-title">Historial Médico</h3>   
-        </div>
-        <div class="box-body">
-             <?php $form = ActiveForm::begin([ 
-                                            'action' => ['historialmedico/update'], 
-                                            'options' => [
-                                              'class' => 'ajax-form'
-                                              ]
-                                            ]); ?>
-            <?= $form->field($histMedicoModel, 'enf_cardiaca')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($histMedicoModel, 'ale_alimentaria')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($histMedicoModel, 'ale_cutanea')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($histMedicoModel, 'otras_limit')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($histMedicoModel, 'cancer')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($histMedicoModel, 'enf_endocrina')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($histMedicoModel, 'otras')->textInput(['maxlength' => true]) ?>
-            <?= Html::hiddenInput('id', $histMedicoModel->id)?>
+        <div class="box-header"><h3 class="box-title">Historial Médico</h3>   </div>
+          <div class="box-body">
+              <?php $form = ActiveForm::begin([ 
+                                              'action' => ['historialmedico/update'], 
+                                              'options' => [
+                                                'class' => 'ajax-form'
+                                                ]
+                                              ]); ?>
+              <?= $form->field($histMedicoModel, 'enf_cardiaca')->textInput(['maxlength' => true]) ?>
+              <?= $form->field($histMedicoModel, 'ale_alimentaria')->textInput(['maxlength' => true]) ?>
+              <?= $form->field($histMedicoModel, 'ale_cutanea')->textInput(['maxlength' => true]) ?>
+              <?= $form->field($histMedicoModel, 'otras_limit')->textInput(['maxlength' => true]) ?>
+              <?= $form->field($histMedicoModel, 'cancer')->textInput(['maxlength' => true]) ?>
+              <?= $form->field($histMedicoModel, 'enf_endocrina')->textInput(['maxlength' => true]) ?>
+              <?= $form->field($histMedicoModel, 'otras')->textInput(['maxlength' => true]) ?>
+              <?= Html::hiddenInput('id', $histMedicoModel->id)?>
 
 
-            <div class="form-group">
-                <?= Html::submitButton($histMedicoModel->isNewRecord ? 'Crear' : 'Guardar', ['class' => $histMedicoModel->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-            </div>
-            <?php ActiveForm::end(); ?>
+              <div class="form-group">
+                  <?= Html::submitButton($histMedicoModel->isNewRecord ? 'Crear' : 'Guardar', ['class' => $histMedicoModel->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+              </div>
+              <?php ActiveForm::end(); ?>
+        </div> <!--FIN Box Body Historial Medico-->
+      </div> <!--FIN WIDGET Body Historial Medico-->
+      </div> <!--FIN Columna Hist Medico-->
 
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">   <!-- Row Historial Comportamiento -->
     <div class='col-sm-6'> <!-- Columna Historial Comportamiento -->
       <div class="box box-solid box-primary" data-widget="box-widget"> <!-- Box Historial Comportamiento -->
         <div class="box-header">
@@ -407,63 +426,4 @@ ID CONTRATO (PROPIETARIO): <?=$propietarioModel->id?>
         </div> <!-- FIN Box Body Historial Comportamiento -->
       </div> <!-- FIN Box Historial Comportamiento -->
     </div> <!-- FIN Columna Historial Comportamiento -->
-
-    <div class='col-sm-6'> <!-- Columna Vacuna -->
-      <div class="box box-solid box-primary" data-widget="box-widget"> <!-- Box Vacuna -->
-        <div class="box-header">
-          <h3 class="box-title">Vacunación</h3>   
-        </div>
-        <div class="box-body"> <!-- Box Body Vacuna -->
-        <?php Pjax::begin(['id' => 'gridViewVacuna']);   ?>                                
-        <?= GridView::widget([
-        'dataProvider' => $vacunaDataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            'id_mascota',
-            [
-              'class'=>'yii\grid\DataColumn',
-              'label'=>'Nombre Vacuna',
-              'enableSorting' => TRUE,
-              'value'=>function($data){
-                  $nomCompleto = "No Asignado";
-                  if (isset($data->id_vacuna))
-                  {
-                      $prop = Vacuna::findOne($data->id_vacuna);
-                      $nomCompleto = $prop->nombre;
-
-                  }
-                  return $nomCompleto;
-              },
-          ],
-            'fecha',
-            'proxima_fecha'
-          ],
-        ]); ?>
-        <?php Pjax::end();?>
-        <?php $modelVacuna = new VacunaMascota();
-        $formVacuna = ActiveForm::begin([ 
-                                      'action' => ['vacuna-mascota/create-ajax'], 
-                                      'options' => [
-                                        'class' => 'ajax-form'
-                                        ]
-                                      ]); ?>
-        <?= $formVacuna->field($modelVacuna, 'id_mascota')->hiddenInput(['value'=>$model->id])->label(false); ?>
-        <?= $formVacuna->field($modelVacuna, 'id_vacuna')->dropDownList($vacuna_list, ['prompt' => 'Seleccione Uno' ])->label("Tipo vacuna");    ?>                            
-        <?= $form->field($modelVacuna, 'fecha')->widget(\yii\jui\DatePicker::className(), [
-                              'language' => 'es',
-                              'dateFormat' => 'dd-MM-yyyy',
-                            ]) ?>
-
-        <div class="form-group">
-          <?= Html::submitButton($modelVacuna->isNewRecord ? 'Añadir' : 'Guardar', ['class' => $modelVacuna->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        </div>
-        <?php ActiveForm::end(); ?>
-        </div>
-
-        </div> <!-- FIN Box Body Vacuna -->
-      </div> <!-- FIN Box Vacuna -->
-    </div> <!-- FIN Columna Vacuna -->
-
-
-
-  </div> <!-- FIN Row Historial Comportamiento -->
+  </div> <!-- FIN Row 2 -->

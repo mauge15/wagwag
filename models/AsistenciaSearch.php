@@ -19,7 +19,7 @@ class AsistenciaSearch extends Asistencia
     {
         return [
             [['id', 'id_mascota'], 'integer'],
-            [['llegada', 'salida'], 'safe'],
+            [['hora'], 'safe'],
         ];
     }
 
@@ -61,8 +61,7 @@ class AsistenciaSearch extends Asistencia
         $query->andFilterWhere([
             'id' => $this->id,
             'id_mascota' => $this->id_mascota,
-            'llegada' => $this->llegada,
-            'salida' => $this->salida,
+            'hora' => $this->hora,
         ]);
 
         return $dataProvider;

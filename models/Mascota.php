@@ -86,4 +86,13 @@ class Mascota extends \yii\db\ActiveRecord
         $this->fecha_ult_celo = $ult_celo;
         return parent::beforeSave($insert);
     }
+
+     /* ActiveRelation */
+    public function getPropietario()
+    {
+        return $this->hasOne(Propietario::className(), ['id' => 'id_propietario']);
+    }
+
+
+   
 }

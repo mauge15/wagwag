@@ -11,6 +11,8 @@ use app\models\HistorialMedico;
 use app\models\HistorialComportamiento;
 use app\models\PropietarioSearch;
 use app\models\Referencia;
+use app\models\VacunaMascota;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -62,11 +64,20 @@ class PropietarioController extends Controller
         $mascota = Mascota::find()->where(['id_propietario' => $id])->one();
         $histMedico = HistorialMedico::find()->where(["id_mascota"=>$mascota->id])->one();
         $histComp = HistorialComportamiento::find()->where(["id_mascota" => $mascota->id])->one();
+        $queryVacuna = VacunaMascota::find();
+        $queryVacuna->andFilterWhere([
+            'id_mascota' => $mascota->id,
+            ]);
+
+        $vacunaDataProvider = new ActiveDataProvider([
+            'query' => $queryVacuna,
+        ]);
         return $this->render('viewComplete', [
             'modelPropietario' => $propietario,
             'modelMascota' => $mascota,
             'modelHistMedico' => $histMedico,
             'modelHistComp' => $histComp,
+            'vacunaDataProvider' => $vacunaDataProvider
         ]);
     }
 
@@ -98,13 +109,6 @@ class PropietarioController extends Controller
                     $modelMascota->id_raza = $modelRaza->id;
                     //Yii::debug('creating Raza');
             }
-            /*if (is_null($modelMascota->id_raza))
-            {
-                Yii::debug('id raza es null');
-                    $modelRaza->save(false);
-                    $modelMascota->id_raza = $modelRaza->id;
-                    
-            }*/
             if (Model::validateMultiple([$modelPropietario, $modelMascota, $modelHistMedico,$modelHistComp]))
             {
                     //Yii::debug('enters validation');
@@ -118,27 +122,52 @@ class PropietarioController extends Controller
                         $modelMascota->id_historial_medico = $modelHistMedico->id;
                         $modelMascota->id_historial_comportamiento = $modelHistComp->id;
                         $modelMascota->save(false);
-                        return $this->redirect(['view', 'id' => $modelPropietario->id]);
+
+                     
+
+                        return $this->redirect(['view',  'id' => $modelPropietario->id]);
             }
             else 
             {
+                //$errors = $model->errors;
+                 ///Vacuna Temporal
+                 $queryVacuna = VacunaMascota::find();
+                 $queryVacuna->andFilterWhere([
+                     'id_mascota' => 9999,
+                     ]);
+
+                 $vacunaDataProvider = new ActiveDataProvider([
+                     'query' => $queryVacuna,
+                 ]);
                     return $this->render('create', [
                         'modelPropietario' => $modelPropietario,
                         'modelMascota' => $modelMascota,
                         'modelHistMedico' => $modelHistMedico,
                         'modelHistComp' => $modelHistComp,
                          'listReferencia' => Referencia::find()->all(),
+                         'vacunaDataProvider' => $vacunaDataProvider
                     ]);
             }
         }
         else 
         {
+                    ///Vacuna Temporal
+                    $queryVacuna = VacunaMascota::find();
+                    $queryVacuna->andFilterWhere([
+                        'id_mascota' => 9999,
+                        ]);
+
+                    $vacunaDataProvider = new ActiveDataProvider([
+                        'query' => $queryVacuna,
+                    ]);
+
                     return $this->render('create', [
                         'modelPropietario' => $modelPropietario,
                         'modelMascota' => $modelMascota,
                         'modelHistMedico' => $modelHistMedico,
                         'modelHistComp' => $modelHistComp,
                          'listReferencia' => Referencia::find()->all(),
+                         'vacunaDataProvider' => $vacunaDataProvider
                     ]);
         }
     }

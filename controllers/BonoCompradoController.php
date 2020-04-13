@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\BonoComprado;
+use app\models\Bono;
 use app\models\BonoCompradoSearch;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
@@ -82,8 +83,10 @@ class BonocompradoController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -103,6 +106,31 @@ class BonocompradoController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+            ]);
+        }
+    }
+
+     /**
+     * Creates a new BonoComprado model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateajax($id_mascota)
+    {
+        $model = new BonoComprado();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } elseif (Yii::$app->request->isAjax) {
+            return $this->renderAjax('createAjax', [
+                'model' => $model,
+                'id_mascota' => $id_mascota,
+            ]);
+        }
+        else
+        {
+            return $this->render('_form', [
+                        'model' => $model
             ]);
         }
     }

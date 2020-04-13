@@ -19,6 +19,10 @@ use app\models\Bono;
  * @property integer $dias_utilizados
  * @property integer $dias_bono
  * @property integer $activo
+ * @property double $descuento_especial_pct
+ * @property double $descuento_especial_abs
+ * @property string $nota_descuento
+ * @property double $precio_final
  */
 class BonoComprado extends \yii\db\ActiveRecord
 {
@@ -39,6 +43,8 @@ class BonoComprado extends \yii\db\ActiveRecord
             [['id_mascota', 'id_bono', 'fecha_compra'], 'required'],
             [['id_mascota', 'id_bono', 'id_propietario', 'dias_utilizados', 'dias_bono'], 'integer'],
             [['fecha_compra', 'fecha_caducidad'], 'safe'],
+            [['nota_descuento'],'string'],
+            [['descuento_especial_pct', 'descuento_especial_abs','precio_final'], 'double'],
         ];
     }
 
@@ -56,6 +62,11 @@ class BonoComprado extends \yii\db\ActiveRecord
             'fecha_caducidad' => 'Fecha de Caducidad',
             'dias_utilizados' => 'Dias Utilizados',
             'dias_bono' => 'Dias del Bono',
+            'descuento_especial_pct' => 'Descuento Especial (%)',
+            'descuento_especial_abs' => 'Descuento Especial (€)',
+            'nota_descuento' => 'Nota descuento',
+            'precio_final' => 'Precio Final Aplicado (€)',
+
         ];
     }
 
@@ -64,7 +75,9 @@ class BonoComprado extends \yii\db\ActiveRecord
     public function beforeSave($insert) {
         // unix timestamp
         // if you want a specific format
-        $fecha_compra = date_create_from_format('d/m/Y', $this->fecha_compra);
+        if ($insert==1)
+        {
+        $fecha_compra = date_create_from_format('d-m-Y', $this->fecha_compra);
         $fecha_compra_string = date_format($fecha_compra,'Y-m-d');//String
         $fecha_compra = date("Y-m-d", strtotime($fecha_compra_string));//Es un String
         $this->fecha_compra = $fecha_compra;
@@ -79,6 +92,14 @@ class BonoComprado extends \yii\db\ActiveRecord
         $this->dias_bono = isset($bono->dias) ? $bono->dias : 0;
         $this->dias_utilizados = 0;
         $this->activo = 1;
+        }
         return parent::beforeSave($insert);
+    }
+
+    public function relations()
+    {
+        return array(
+            'bono'=>array(self::HAS_ONE, 'Bono', 'id_bono'),
+        );
     }
 }

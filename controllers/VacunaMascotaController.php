@@ -37,7 +37,9 @@ class VacunaMascotaController extends Controller
     {
         $searchModel = new VacunaMascotaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $sort = $dataProvider->getSort();
+        $sort->defaultOrder = ['proxima_fecha' => SORT_ASC];
+        $dataProvider->setSort($sort);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

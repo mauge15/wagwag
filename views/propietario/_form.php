@@ -4,14 +4,17 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\jui\AutoComplete;
-
+use app\models\VacunaMascota;
+use yii\grid\GridView;
 use app\models\Propietario;
+use app\models\Vacuna;
 use app\models\Veterinario;
 use app\models\SociedadProtectora;
 use app\models\Temperamento;
 use app\models\Raza;
 use yii\web\JsExpression;
 use yii\web\View;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Propietario */
@@ -51,6 +54,34 @@ $buttonToggler = <<<JS
 JS;
 $this->registerJs($buttonToggler, View::POS_READY);
 
+$ajaxForm = <<<JS
+    $(".ajax-form").submit(function(event) {
+            event.preventDefault(); // stopping submitting
+            event.stopImmediatePropagation();
+           var data = $(this).serializeArray();
+            var url = $(this).attr('action');
+            $.ajax({
+                url: url,
+                type: 'post',
+                dataType: 'json',
+                data: data
+            })
+            .done(function(response) {
+                if (response.data.success == true) {
+                    alert(response.data.message);
+                    $.pjax.reload('#gridViewVacuna', "");
+                }
+            })
+            .fail(function() {
+                console.log("error");
+            });
+        
+        //window.alert("prueba ajax");
+        });
+JS;
+
+$this->registerJs($ajaxForm, View::POS_READY);
+
 //$type_list= Referencia::model()->findAll();
 $type_list= ArrayHelper::map($listReferencia,'id','tipo');
 
@@ -81,6 +112,8 @@ $dataRaza = Raza::find()
 
 
 
+   $listVacuna = Vacuna::find()->all();
+   $vacuna_list= ArrayHelper::map($listVacuna,'id','nombre');
 
 ?>
 
@@ -233,4 +266,8 @@ $dataRaza = Raza::find()
             </div>
         </div>
     </div>
+</div>
+
+
+
 </div>

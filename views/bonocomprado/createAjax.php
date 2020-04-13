@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\BonoComprado */
 
-$this->title = 'Nuevo Servicio';
+$this->title = 'Nuevo Bono';
 $this->params['breadcrumbs'][] = ['label' => 'Nuevo Bono', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -14,8 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
+    <?= $this->render('_formAjax', [
         'model' => $model,
+        'id_mascota' => $id_mascota,
     ]) ?>
 
 </div>

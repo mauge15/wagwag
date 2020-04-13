@@ -4,7 +4,9 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Raza;
 use app\models\Propietario;
+use app\models\BonoComprado;
 use yii\web\JsExpression;
+use yii\widgets\Pjax;
 use yii\helpers\Url;
 use yii\jui\Dialog;
 use yii\web\View;
@@ -45,10 +47,10 @@ yii\bootstrap\Modal::begin([
     'headerOptions' => ['id' => 'modalHeader'],
     'id' => 'modal',
     'size' => 'modal-lg',
-    'closeButton' => ['id' => 'close-button'],  
+    //'closeButton' => ['id' => 'close-button'],  
     //keeps from closing modal with esc key or by clicking out of the modal.
     // user must click cancel or X to close
-    'clientOptions' => ['keyboard' => TRUE]
+    //'clientOptions' => ['keyboard' => TRUE]
 ]);
 echo "<div id='modalContent'></div>";
 yii\bootstrap\Modal::end();
@@ -58,9 +60,8 @@ yii\bootstrap\Modal::end();
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Nueva Mascota', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <?php Pjax::begin(['id' => 'gridViewMascota']);   ?>       
+   
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -110,15 +111,63 @@ yii\bootstrap\Modal::end();
                 'template'=>'{web}',
                 'buttons'=> [
                     'web' => function($url,$model,$key) {
-                        return Html::button('', ['value' => Url::to(['anotacion/create','id_mascota'=>$model->id]), 'title' => 'Información Interna', 'class' => 'showModalButton glyphicon glyphicon-plus']);
+                        return Html::button('', ['value' => Url::to(['anotacion/create','id_mascota'=>$model->id]), 'title' => 'Información Interna', 'class' => 'showModalButton glyphicon glyphicon-edit']);
                     },
-                    'twitter' => function ($url, $model, $key){
-                        return Html::a('<span class="glyphicon glyphicon-picture"</span>',
-                            'twitter');
+                ]
+                ],
+                ['class' => 'yii\grid\ActionColumn',
+                'template' => '{detalle}',
+                'header' => 'Fichar',
+                'buttons' => [
+                    'detalle' => function($url, $model)
+                    {
+                        return Html::button('', ['value' => Url::to(['asistencia/createajax','id_mascota'=>$model->id]), 'title' => 'Detalles', 'class' => 'showModalButton glyphicon glyphicon-calendar']);
                     }
                 ]
-            ]
+                ],
+                [
+                    'class'=>'yii\grid\ActionColumn',
+                    'template'=>'{detalle}',
+                    'header'=>'Nuevo Bono',
+                    'buttons' => [
+                        'detalle' => function($url, $model)
+                        {
+                            return Html::button('', ['value' => Url::to(['bonocomprado/createajax','id_mascota'=>$model->id]), 'title' => 'Detalles', 'class' => 'showModalButton glyphicon glyphicon-plus']);
+                        }
+                    ]
+                ],
+
+                [
+                    'class'=>'yii\grid\DataColumn',
+                    'label'=>'Bono Activo/Días Restantes',
+                    'enableSorting' => TRUE,
+                    'value'=>function($data){
+                        $nomCompleto = "No Asignado";
+                        $lista_bonos = BonoComprado::find()->where(['id_mascota' => $data->id,'activo'=>1])->all();      
+                        if (count($lista_bonos)>=1)
+                        {
+                            if (count($lista_bonos)==1)
+                            {
+                                $bono = Bono::find()->where(['id'=>$lista_bonos[0]->id_bono])->one();
+                                $bono_comprado = $lista_bonos[0];       
+                                $nomCompleto = $bono->tipo;
+                                if ($bono->id<>1 & $bono->id<>2 )
+                                {
+                                    $dias_restantes = $bono_comprado->dias_bono;
+                                    $nomCompleto = $nomCompleto." / ".$dias_restantes;
+                                } 
+                            }
+                            else
+                            {
+                            $nomCompleto = ">1";
+                            }
+
+                        }
+                        return $nomCompleto;
+                    },
+                ],
 
         ],
     ]); ?>
+     <?php Pjax::end();?>
 </div>

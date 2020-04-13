@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Asistencia */
+/* @var $model app\models\VacunaMascota */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Asistencias', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Vacuna Mascotas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="asistencia-view">
+<div class="vacuna-mascota-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,7 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'id_mascota',
-            'hora',
+            'id_vacuna',
+            'fecha',
         ],
     ]) ?>
 

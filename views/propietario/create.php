@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
                   			'modelHistMedico' => $modelHistMedico,
                   			'modelHistComp' => $modelHistComp,
 							'listReferencia' => $listReferencia,
+							'vacunaDataProvider' => $vacunaDataProvider,
 					    ]) ?>
 
  

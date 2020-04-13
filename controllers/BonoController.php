@@ -56,6 +56,23 @@ class BonoController extends Controller
         ]);
     }
 
+
+    
+    /**
+     * Displays a single Bono model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionVerdetalle($id)
+    {
+        $resultado = $this->findModel($id);
+        //return $resultado->precio;
+        //echo "100";
+        return $resultado->precio;
+    }
+
+
+
     /**
      * Creates a new Bono model.
      * If creation is successful, the browser will be redirected to the 'view' page.

@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <!-- search form -->
+        <!-- search form 
         <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
                 <input type="text" name="q" class="form-control" placeholder="Search..."/>
@@ -24,7 +24,7 @@
               </span>
             </div>
         </form>
-        <!-- /.search form -->
+        -->
 
         <?= dmstr\widgets\Menu::widget(
             [
@@ -39,7 +39,8 @@
                         ['label' => 'Nuevo', 'icon' => 'plus-square', 'url' => ['/propietario/create'],],
                         ['label' => 'Gestionar', 'icon' => 'dashboard', 'url' => ['/mascota'],],
                         ['label' => 'Anotaciones', 'icon' => 'dashboard', 'url' => ['/anotacion'],],
-                        ['label' => 'Compra Bono', 'icon' => 'plus-square', 'url' => ['/bonocomprado/create'],],
+                        ['label' => 'Próximas Vacunas', 'icon' => 'dashboard', 'url' => ['/vacuna-mascota'],],
+                        
                      ],
                  ],
 
@@ -64,7 +65,7 @@
                      ],*/
 
 			
-                    ['label' => 'Asistencia', 'icon' => 'calendar', 'url' => ['/debug']],
+                    //['label' => 'Asistencia', 'icon' => 'calendar', 'url' => ['/debug']],
 
                    /* ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     

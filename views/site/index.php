@@ -3,7 +3,9 @@
 /* @var $this yii\web\View */
 use yii\grid\GridView;
 use app\models\Raza;
+use app\models\Bono;
 use app\models\Propietario;
+use app\models\BonoComprado;
 use app\models\Mascota;
 use yii\web\JsExpression;
 use yii\helpers\Html;
@@ -51,7 +53,11 @@ Dialog::end();*/
         }
     });");
 
+    $ajaxForm = <<<JS
+    $("#boton_prueba").click(function(){ window.alert('hola'); });
+JS;
 
+$this->registerJs($ajaxForm, View::POS_READY);
 
 yii\bootstrap\Modal::begin([
     'headerOptions' => ['id' => 'modalHeader'],
@@ -69,7 +75,15 @@ $this->registerJs(
 "$('#calendar').fullCalendar({
      weekends: false // will hide Saturdays and Sundays
 })",
-View::POS_READY)
+View::POS_READY);
+/*
+Yii::$app->mailer->compose()
+    ->setFrom('me.rojas.vera@gmail.com')
+    ->setTo('mauge15@msn.com')
+    ->setSubject('Mensajr')
+    ->setTextBody('Plain text content')
+    ->setHtmlBody('<b>HTML content</b>')
+    ->send();*/
 ?>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -95,7 +109,7 @@ View::POS_READY)
 
     <div class="body-content">
 
-
+ 
         <!--<div id='calendar'></div>-->
 
         <div class="row">
@@ -185,7 +199,7 @@ View::POS_READY)
                             'buttons' => [
                                 'detalle' => function($url, $model)
                                 {
-                                    return Html::button('', ['value' => Url::to(['asistencia/create','id_mascota'=>$model->id]), 'title' => 'Detalles', 'class' => 'showModalButton glyphicon glyphicon-calendar']);
+                                    return Html::button('', ['value' => Url::to(['asistencia/createajax','id_mascota'=>$model->id]), 'title' => 'Detalles', 'class' => 'showModalButton glyphicon glyphicon-calendar']);
                                 }
                             ]
                             ],
@@ -194,13 +208,37 @@ View::POS_READY)
                              [
                                 'class'=>'yii\grid\ActionColumn',
                                 'template'=>'{detalle}',
-                                'header'=>'Datos',
+                                'header'=>'Nuevo Bono',
                                 'buttons' => [
                                     'detalle' => function($url, $model)
                                     {
-                                        return Html::button('', ['value' => Url::to(['asistencia/create','id_mascota'=>$model->id]), 'title' => 'Detalles', 'class' => 'showModalButton glyphicon glyphicon-calendar']);
+                                        return Html::button('', ['value' => Url::to(['bonocomprado/createajax','id_mascota'=>$model->id]), 'title' => 'Detalles', 'class' => 'showModalButton glyphicon glyphicon-plus']);
                                     }
                                 ]
+                            ],
+
+                            [
+                                'class'=>'yii\grid\DataColumn',
+                                'label'=>'Bono Activo',
+                                'enableSorting' => TRUE,
+                                'value'=>function($data){
+                                    $nomCompleto = "No Asignado";
+                                    $lista_bonos = BonoComprado::find()->where(['id_mascota' => $data->id,'activo'=>1])->all();      
+                                    if (count($lista_bonos)>=1)
+                                    {
+                                        if (count($lista_bonos)==1)
+                                        {
+                                            $bono = Bono::find()->where(['id'=>$lista_bonos[0]->id_bono])->one();
+                                            $nomCompleto = $bono->tipo;
+                                        }
+                                        else
+                                        {
+                                        $nomCompleto = ">1";
+                                        }
+
+                                    }
+                                    return $nomCompleto;
+                                },
                             ],
                         ],
                         ]); ?>   
@@ -245,71 +283,24 @@ View::POS_READY)
                     </div>
                     <div class="box-body">
                         <?= GridView::widget([
-                        'dataProvider' => $dataProvider,
-                        'filterModel' => $searchModel,
+                        'dataProvider' => $dataProvider_asistencia,
                         'columns' => [
                             ['class' => 'yii\grid\SerialColumn'],
-
-                            //'id',
-                            'nombre',
-                            //'fecha_nac',
+                            'fecha',
+                            'hora',
                             [
                                 'class'=>'yii\grid\DataColumn',
-                                'label'=>'Propietario',
+                                'label'=>'Mascota',
                                 'enableSorting' => TRUE,
                                 'value'=>function($data){
                                     $nomCompleto = "No Asignado";
-                                    if (isset($data->id_propietario))
+                                    if (isset($data->id_mascota))
                                     {
-                                        $prop = Propietario::findOne($data->id_propietario);
-                                        $nomCompleto = $prop->nombre." ".$prop->apellido;
+                                        $prop = Mascota::findOne($data->id_mascota);
+                                        $nomCompleto = $prop->nombre;
 
                                     }
                                     return $nomCompleto;
-                                },
-                            ],
-
-                            [
-                                'class'=>'yii\grid\DataColumn',
-                                'label'=>'Raza',
-                                'value'=>function($data){
-                                    return Raza::findOne($data->id_raza)->nombre;
-                                },
-                            ],
-                            // 'sexo',
-                            // 'esterilizado',
-                            // 'fecha_ult_celo',
-                            // 'adoptado',
-                            // 'id_protectora',
-                            // 'id_historial_medico',
-                            // 'id_historial_comportamiento',
-
-                            ['class' => 'yii\grid\ActionColumn',
-                            'header'=> 'Acciones',
-                            'controller' => 'mascota'],
-
-                            ['class' => 'yii\grid\ActionColumn',
-                            'template' => '{update} {delete}',
-                            'header' => 'Asistencia',
-                            'buttons' => [
-                                'delete' => function($url, $model)
-                                {
-                                    return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
-                                        'class' => '',
-                                        'data' => [
-                                            'confirm' => 'Are you absolutely sure ? You will lose all the information about this user with this action.',
-                                            'method' => 'post',
-                                        ],
-                                        ]);
-                                }
-                            ]
-                            ],
-
-                             [
-                                'class'=>'yii\grid\DataColumn',
-                                'label'=>'Dias',
-                                'value'=>function($data){
-                                    return 2;
                                 },
                             ],
                         ],

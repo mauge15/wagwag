@@ -19,8 +19,9 @@ class VacunaMascotaSearch extends VacunaMascota
     {
         return [
             [['id', 'id_mascota', 'id_vacuna'], 'integer'],
-            [['fecha'], 'safe'],
+            [['fecha', 'proxima_fecha','propietarioName','mascotaName','vacunaName'], 'safe'],
         ];
+
     }
 
     /**
@@ -49,6 +50,42 @@ class VacunaMascotaSearch extends VacunaMascota
             'query' => $query,
         ]);
 
+        $dataProvider->setSort([
+            'attributes' => [
+                'id',
+                'propietarioName' => [
+                    'asc' => ['propietarioName' => SORT_ASC],
+                    'desc' => ['propietarioName' => SORT_DESC],
+                    'label' => 'Propietario',
+                    'default' => SORT_ASC
+                ],
+                'mascotaName' => [
+                    'asc' => ['mascotaName' => SORT_ASC],
+                    'desc' => ['mascotaName' => SORT_DESC],
+                    'label' => 'Mascota',
+                    'default' => SORT_ASC
+                ],
+                'vacunaName' => [
+                    'asc' => ['vacunaName' => SORT_ASC],
+                    'desc' => ['vacunaName' => SORT_DESC],
+                    'label' => 'Vacuna',
+                    'default' => SORT_ASC
+                ],
+                'fecha' => [
+                    'asc' => ['fecha' => SORT_ASC],
+                    'desc' => ['fecha' => SORT_DESC],
+                    'label' => 'Fecha',
+                    'default' => SORT_ASC
+                ],
+                'proxima_fecha' => [
+                    'asc' => ['proxima_fecha' => SORT_ASC],
+                    'desc' => ['proxima_fecha' => SORT_DESC],
+                    'label' => 'Próxima Fecha',
+                    'default' => SORT_ASC
+                ],
+            ]
+        ]);
+
         $this->load($params);
 
         if (!$this->validate()) {
@@ -65,6 +102,11 @@ class VacunaMascotaSearch extends VacunaMascota
             'fecha' => $this->fecha,
         ]);
 
+         // filter by custom condition
+        // filter by country name
+        /*$query->joinWith(['propietario' => function ($q) {
+            $q->where('propietario.nombre LIKE "%' . $this->propietarioName . '%"');
+        }]);*/
         return $dataProvider;
     }
 }

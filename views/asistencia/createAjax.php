@@ -16,7 +16,7 @@ $this->registerJs($ajaxForm, View::POS_READY);
 $ajaxForm_asistencia = <<<JS
     $("#asistencia-form").submit(function(event) {
             event.preventDefault(); // stopping submitting
-            window.alert("Forma Ajax");
+            //window.alert("Forma Ajax");
             event.stopImmediatePropagation();
            var data = $(this).serializeArray();
             var url = $(this).attr('action');
@@ -28,13 +28,17 @@ $ajaxForm_asistencia = <<<JS
             })
             .done(function(response) {
                 if (response.data.success == true) {
+                    $.pjax.reload('#gridViewMascota', "");
+                    //$("#modal").modal('toggle');
+                    //$("#modal .close").click();
                     alert(response.data.message);
+                    $("#modal").modal('hide');
                 }
             })
             .fail(function() {
                 console.log("error");
             }); 
-        window.alert("termina");
+        //window.alert("termina");
         });
 JS;
 
@@ -47,7 +51,6 @@ $this->params['breadcrumbs'][] = $this->title;
 $mascota = Mascota::findOne($id_mascota);
 ?>
 <div class="asistencia-create">
-   <input type="button" id="boton_prueba" text="Boton" value="Boton"/>
     <h3><?= Html::encode($mascota->nombre) ?></h3>
 
     <?= $this->render('_form', [

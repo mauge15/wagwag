@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Anotacion */
 
-$this->title = 'Create Anotacion';
+$this->title = 'Añadir Anotación';
 $this->params['breadcrumbs'][] = ['label' => 'Anotacions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
