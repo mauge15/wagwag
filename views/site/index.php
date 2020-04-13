@@ -8,6 +8,7 @@ use app\models\Propietario;
 use app\models\BonoComprado;
 use app\models\Mascota;
 use yii\web\JsExpression;
+use yii\widgets\Pjax;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\jui\Dialog;
@@ -111,6 +112,7 @@ Yii::$app->mailer->compose()
 
  
         <!--<div id='calendar'></div>-->
+        <?php Pjax::begin(['id' => 'gridViewMascota']);   ?>     
 
         <div class="row">
             
@@ -127,12 +129,7 @@ Yii::$app->mailer->compose()
                         </div>
                     </div>
                     <div class="box-body">
-
-                        <?php
-                        //Html::button('Detalles', ['value' => Url::to(['asistencia/create']), 'title' => 'Fichaje', 'class' => 'showModalButton loadMainContent btn btn-success']); 
-                        ?>
-
-
+                   
                         <?= GridView::widget([
                         'dataProvider' => $dataProvider,
                         'filterModel' => $searchModel,
@@ -165,34 +162,6 @@ Yii::$app->mailer->compose()
                                     return Raza::findOne($data->id_raza)->nombre;
                                 },
                             ],
-                            // 'sexo',
-                            // 'esterilizado',
-                            // 'fecha_ult_celo',
-                            // 'adoptado',
-                            // 'id_protectora',
-                            // 'id_historial_medico',
-                            // 'id_historial_comportamiento',
-
-                            /*['class' => 'yii\grid\ActionColumn',
-                            'header'=> 'Acciones',
-                            'controller' => 'mascota'
-                        ],*/
-
-                           /* ['class' => 'yii\grid\ActionColumn',
-                            'template' => '{asistencia}',
-                            'header' => 'Fichar',
-                            'buttons' => [
-                                'asistencia' => function($url, $model)
-                                {
-                                    return Html::a(
-                                        '<span title="Fichaje" class="glyphicon glyphicon-calendar"></span>',
-                                        Url::to(['asistencia/create'])
-                                    );
-                                }
-                            ]
-                            ],*/
-
-
                             ['class' => 'yii\grid\ActionColumn',
                             'template' => '{detalle}',
                             'header' => 'Fichar',
@@ -203,8 +172,6 @@ Yii::$app->mailer->compose()
                                 }
                             ]
                             ],
-
-
                              [
                                 'class'=>'yii\grid\ActionColumn',
                                 'template'=>'{detalle}',
@@ -216,7 +183,6 @@ Yii::$app->mailer->compose()
                                     }
                                 ]
                             ],
-
                             [
                                 'class'=>'yii\grid\DataColumn',
                                 'label'=>'Bono Activo',
@@ -242,34 +208,12 @@ Yii::$app->mailer->compose()
                             ],
                         ],
                         ]); ?>   
-                    </div>
-                </div>
-            </div>
-
-            <!--<div class='col-sm-3'>
-                <div class="box box-solid box-primary" data-widget="box-widget">
-                    <div class="box-header">
-                        <h3 class="box-title">Otro</h3>
-                        <div class="box-tools">
-                             
-                              <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                             
-                              <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div class="mascota-view">
-                            aqui 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        -->
-        </div>
+                    </div> <!--fin Box Body Lista Mascotas-->
+                </div> <!--fin Box Widget Lista Mascotas-->
+            </div> <!--fin Columna-->
+        </div> <!--Fin Fila 1-->
 
          <div class="row">
-            
-
             <div class="col-sm-12">
                 <div class="box box-solid box-info" data-widget="box-widget">
                     <div class="box-header">
@@ -305,27 +249,8 @@ Yii::$app->mailer->compose()
                             ],
                         ],
                         ]); ?>   
-                    </div>
-                </div>
-            </div>
-
-            <!--<div class='col-sm-3'>
-                <div class="box box-solid box-primary" data-widget="box-widget">
-                    <div class="box-header">
-                        <h3 class="box-title">Otro</h3>
-                        <div class="box-tools">
-                             
-                              <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                             
-                              <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div class="mascota-view">
-                            aqui 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        -->
-        </div>
+                    </div> <!--Fin box body asistencia-->
+                </div> <!--FIn Box Widget asistencia-->
+            </div><!--Fin Columna-->
+        </div><!---Fin Fila-->
+        <?php Pjax::end();?>
