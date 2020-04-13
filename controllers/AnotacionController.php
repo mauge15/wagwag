@@ -91,7 +91,7 @@ class AnotacionController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreateAjax()
+    public function actionCreateajax()
     {
         $model = new Anotacion();
       
