@@ -291,7 +291,7 @@ if (isset($model->id_raza))
             Pjax::end();?>
              <?php $modelAnotacion = new Anotacion();
              $form = ActiveForm::begin([ 
-                                            'action' => ['anotacion/create-ajax'], 
+                                            'action' => ['anotacion/createajax'], 
                                             'options' => [
                                               'class' => 'ajax-form'
                                               ]
@@ -340,7 +340,7 @@ if (isset($model->id_raza))
         <?php Pjax::end();?>
         <?php $modelVacuna = new VacunaMascota();
         $formVacuna = ActiveForm::begin([ 
-                                      'action' => ['vacuna-mascota/create-ajax'], 
+                                      'action' => ['vacunamascota/createajax'], 
                                       'options' => [
                                         'class' => 'ajax-form'
                                         ]
