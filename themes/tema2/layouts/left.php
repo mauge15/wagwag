@@ -39,7 +39,7 @@
                         ['label' => 'Nuevo', 'icon' => 'plus-square', 'url' => ['/propietario/create'],],
                         ['label' => 'Gestionar', 'icon' => 'dashboard', 'url' => ['/mascota'],],
                         ['label' => 'Anotaciones', 'icon' => 'dashboard', 'url' => ['/anotacion'],],
-                        ['label' => 'Próximas Vacunas', 'icon' => 'dashboard', 'url' => ['/vacuna-mascota'],],
+                        ['label' => 'Próximas Vacunas', 'icon' => 'dashboard', 'url' => ['/vacunamascota'],],
                         
                      ],
                  ],
