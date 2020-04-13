@@ -17,7 +17,7 @@ class Temperamento extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'TEMPERAMENTO';
+        return 'temperamento';
     }
 
     /**

@@ -23,7 +23,7 @@ class Bono extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'BONO';
+        return 'bono';
     }
 
     /**

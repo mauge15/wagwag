@@ -17,7 +17,7 @@ class Raza extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'RAZA';
+        return 'raza';
     }
 
     /**

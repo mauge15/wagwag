@@ -18,7 +18,7 @@ class SociedadProtectora extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'SOCIEDADPROTECTORA';
+        return 'sociedadprotectora';
     }
 
     /**

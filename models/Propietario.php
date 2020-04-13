@@ -25,7 +25,7 @@ class Propietario extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'PROPIETARIO';
+        return 'propietario';
     }
 
     /**

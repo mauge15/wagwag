@@ -22,7 +22,7 @@ class Factura extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'FACTURA';
+        return 'factura';
     }
 
     /**

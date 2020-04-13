@@ -19,7 +19,7 @@ class ComportamientoObservado extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'COMP_OBSERVADO';
+        return 'comp_observado';
     }
 
     /**

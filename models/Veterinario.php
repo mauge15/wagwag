@@ -18,7 +18,7 @@ class Veterinario extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'VETERINARIO';
+        return 'veterinario';
     }
 
     /**

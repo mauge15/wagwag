@@ -29,7 +29,7 @@ class HistorialComportamiento extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'HISTCOMPORTAMIENTO';
+        return 'histcomportamiento';
     }
 
     /**

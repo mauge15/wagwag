@@ -18,7 +18,7 @@ class Vacuna extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'VACUNA';
+        return 'vacuna';
     }
 
     /**

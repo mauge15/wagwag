@@ -24,7 +24,7 @@ class HistorialMedico extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'HISTMEDICO';
+        return 'histmedico';
     }
 
     /**

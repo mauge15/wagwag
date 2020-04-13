@@ -31,7 +31,7 @@ class BonoComprado extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'BONO_COMPRADO';
+        return 'bono_comprado';
     }
 
     /**

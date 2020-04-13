@@ -22,7 +22,7 @@ class Asistencia extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ASISTENCIA';
+        return 'asistencia';
     }
 
     /**
