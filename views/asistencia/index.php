@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Mascota;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AsistenciaSearch */
@@ -18,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Asistencia', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?= GridView::widget([
+    <?php /* GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -30,5 +31,32 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]);*/ ?>
+
+
+<?= GridView::widget([
+                        'dataProvider' => $dataProvider,
+                        'columns' => [
+                            ['class' => 'yii\grid\SerialColumn'],
+                            [
+                                'class'=>'yii\grid\DataColumn',
+                                'label'=>'Mascota',
+                                'enableSorting' => TRUE,
+                                'value'=>function($data){
+                                    $nomCompleto = "No Asignado";
+                                    if (isset($data->id_mascota))
+                                    {
+                                        $prop = Mascota::findOne($data->id_mascota);
+                                        $nomCompleto = $prop->nombre;
+
+                                    }
+                                    return $nomCompleto;
+                                },
+                            ],
+                            'fecha',
+                            'hora',
+                           
+                        ],
+                        ]); ?>   
+
 </div>
