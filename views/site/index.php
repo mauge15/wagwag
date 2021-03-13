@@ -230,8 +230,6 @@ Yii::$app->mailer->compose()
                         'dataProvider' => $dataProvider_asistencia,
                         'columns' => [
                             ['class' => 'yii\grid\SerialColumn'],
-                            'fecha',
-                            'hora',
                             [
                                 'class'=>'yii\grid\DataColumn',
                                 'label'=>'Mascota',
@@ -247,6 +245,9 @@ Yii::$app->mailer->compose()
                                     return $nomCompleto;
                                 },
                             ],
+                            'fecha',
+                            'hora',
+                           
                         ],
                         ]); ?>   
                     </div> <!--Fin box body asistencia-->
